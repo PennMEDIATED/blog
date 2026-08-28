@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A MEDIATED Feed · Penn Center on Media, Technology and Democracy</title>
+<meta name="description" content="News, announcements, and insights from the Penn Center on Media, Technology and Democracy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+/* =============================================================================
+   Penn MEDIATED — "A MEDIATED Feed" blog homepage
+   Rebuilt from https://infodem.upenn.edu/blog/ (source content at
+   penn-mediated.github.io/MEDIATED-blog) using the design system defined in
+   github.com/PennMEDIATED/home (design tokens, nav, hero, footer, supporters).
+   Per request: the sidebar's "Center Newsletter" and "Quick Links" sections
+   are intentionally omitted, so the layout below runs single-column.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------
+   Atlassian Spacing Tokens — 8px base unit, ported verbatim from /home
+   ----------------------------------------------------------------------- */
+:root {
+  --space-025:   2px;
+  --space-050:   4px;
+  --space-075:   6px;
+  --space-100:   8px;
+  --space-150:  12px;
+  --space-200:  16px;
+  --space-250:  20px;
+  --space-300:  24px;
+  --space-400:  32px;
+  --space-500:  40px;
+  --space-600:  48px;
+  --space-800:  64px;
+  --space-1000: 80px;
+
+  /* ── Figma colour tokens (from /home) ── */
+  --c-bg:         #ffffff;
+  --c-dark:       #0d0d0c;
+  --c-nav-bg:     rgba(13,13,12,0.92);
+  --c-light-bg:   #f8f7f4;
+  --c-accent:     #5533ee;
+  --c-red:        #f03d1f;
+  --c-gray:       #888680;
+  --c-gray-dark:  #54534f;
+  --c-muted:      #c8c6c0;
+  --c-white:      #ffffff;
+
+  --c-gradient: linear-gradient(150deg, #5533ee 0%, #df3611 81%);
+
+  /* ── Figma typography tokens (from /home) ── */
+  --f-serif: 'EB Garamond', Georgia, 'Times New Roman', serif;
+  --f-sans:  'DM Sans', system-ui, -apple-system, sans-serif;
+  --f-mono:  'Courier New', Courier, monospace;
+
+  /* ── Page layout ── */
+  --max-w: 1440px;
+  --pad-x: var(--space-1000);
+  --nav-h: 52px;
+}
+
+@media (max-width: 900px) {
+  :root { --pad-x: var(--space-400); }
+}
+@media (max-width: 480px) {
+  :root { --pad-x: var(--space-250); }
+}
+
+/* -----------------------------------------------------------------------
+   Reset (from /home)
+   ----------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: var(--f-sans);
+  color: var(--c-dark);
+  background: var(--c-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+ul, ol { list-style: none; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; height: auto; display: block; }
+button { font: inherit; cursor: pointer; background: none; border: none; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0;
+  margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border-width: 0;
+}
+
+.feed__inner {
+  width: 100%;
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: var(--pad-x);
+}
+
+/* =============================================================================
+   FEED HERO — plain centered header, matching the quieter eyebrow+serif
+   title treatment /home uses for its "About the Center" section (mono
+   red eyebrow + purple serif heading on a light ground) rather than the
+   dark/gradient splash hero.
+   ============================================================================= */
+.feed-hero {
+  background: var(--c-white);
+}
+
+.feed-hero__inner {
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: var(--pad-x);
+  padding-block: var(--space-800) var(--space-300);
+  text-align: center;
+}
+
+.feed-hero__title {
+  font-family: var(--f-serif);
+  font-weight: 700;
+  font-size: clamp(38px, 5vw, 60px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--c-accent);
+  margin-bottom: var(--space-300);
+}
+
+.feed-hero__subtitle {
+  font-family: var(--f-serif);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--c-dark);
+  white-space: nowrap;
+  margin-inline: auto;
+}
+
+/* =============================================================================
+   FEED — single-column post list (sidebar removed per request)
+   ============================================================================= */
+.feed {
+  background: var(--c-white);
+  padding-block: var(--space-400) var(--space-1000);
+}
+
+.feed__inner { max-width: var(--max-w); }
+
+.feed__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: var(--space-300);
+  margin-bottom: var(--space-200);
+  border-bottom: 1px solid rgba(13,13,12,0.1);
+}
+
+.feed__label {
+  font-family: var(--f-sans);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--c-dark);
+}
+
+.feed__count {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--c-gray);
+  text-transform: uppercase;
+}
+
+.feed__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-200);
+  margin-bottom: var(--space-100);
+  padding-bottom: var(--space-300);
+  border-bottom: 1px solid rgba(13,13,12,0.08);
+}
+
+.feed__filters { display: flex; flex-wrap: wrap; gap: var(--space-100); }
+
+.filter-pill {
+  font-family: var(--f-sans);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px var(--space-250);
+  border-radius: 100px;
+  border: 1px solid rgba(13,13,12,0.16);
+  background: var(--c-white);
+  color: var(--c-gray-dark);
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.filter-pill:hover { border-color: var(--c-dark); color: var(--c-dark); }
+.filter-pill.is-active {
+  background: var(--c-red);
+  border-color: var(--c-red);
+  color: var(--c-white);
+}
+
+.feed__sort { display: flex; align-items: center; gap: var(--space-150); flex-shrink: 0; }
+
+.feed__sort-label {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--c-gray);
+}
+
+.sort-select {
+  font-family: var(--f-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-dark);
+  background-color: var(--c-light-bg);
+  border: 1px solid rgba(13,13,12,0.16);
+  border-radius: var(--space-100);
+  padding: 7px 34px 7px var(--space-200);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2354534f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 13px;
+  transition: border-color 0.15s;
+}
+.sort-select:hover, .sort-select:focus { border-color: var(--c-dark); outline: none; }
+
+.post-list { display: flex; flex-direction: column; }
+
+.post-item[hidden] { display: none; }
+
+.post-item { border-bottom: 1px solid rgba(13,13,12,0.09); }
+.post-item:last-child { border-bottom: none; }
+
+.post-card {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  column-gap: var(--space-500);
+  padding-block: var(--space-600);
+  cursor: pointer;
+}
+
+.post-list .post-item:first-child .post-card { padding-top: var(--space-300); }
+
+.post-card:hover h2 { color: var(--c-red); }
+.post-card:hover .expand-btn .expand-icon { transform: translateX(4px); }
+
+.post-meta {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-100);
+  font-family: var(--f-mono);
+}
+
+.featured-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px var(--space-150);
+  border-radius: 100px;
+  background: var(--c-accent);
+  color: var(--c-white);
+  font-family: var(--f-sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.post-date {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--c-dark);
+}
+
+.post-item h2 {
+  grid-column: 2;
+  grid-row: 1;
+  font-family: var(--f-serif);
+  font-weight: 500;
+  font-size: clamp(21px, 2.4vw, 28px);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--c-dark);
+  margin-bottom: var(--space-200);
+  transition: color 0.15s;
+}
+
+.post-excerpt {
+  grid-column: 2;
+  grid-row: 2;
+  font-family: var(--f-sans);
+  font-weight: 300;
+  font-size: 16.5px;
+  line-height: 1.7;
+  color: var(--c-dark);
+  margin-bottom: var(--space-300);
+  max-width: 720px;
+}
+
+.post-excerpt a { color: var(--c-accent); text-decoration: underline; text-underline-offset: 2px; }
+
+.post-item-footer {
+  grid-column: 2;
+  grid-row: 3;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-300);
+}
+
+.post-item-footer:has(.post-author) { justify-content: space-between; }
+
+.post-author {
+  font-family: var(--f-sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-gray);
+}
+.post-author strong { color: var(--c-dark); font-weight: 600; }
+
+.expand-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-100);
+  font-family: var(--f-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-dark);
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(13,13,12,0.3);
+  transition: color 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+.expand-btn:hover { color: var(--c-red); border-color: var(--c-red); }
+.expand-icon { display: inline-block; transition: transform 0.2s ease; }
+
+/* Full post bodies are data sources for the modal only — never rendered inline */
+.post-full-content { display: none; }
+
+/* =============================================================================
+   MODAL — full post view
+   ============================================================================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-500) var(--space-250);
+  background: rgba(13,13,12,0.72);
+  overflow-y: auto;
+}
+.modal-overlay[hidden] { display: none; }
+
+.modal-box {
+  width: 100%;
+  max-width: 760px;
+  background: var(--c-white);
+  border-radius: var(--space-150);
+  overflow: hidden;
+  margin-block: var(--space-500);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+}
+
+.modal-header {
+  position: relative;
+  background: var(--c-dark);
+  background-image: var(--c-gradient);
+  padding: var(--space-500) var(--space-600) var(--space-500);
+}
+
+.modal-top-bar {
+  position: absolute;
+  top: var(--space-250);
+  right: var(--space-300);
+  display: flex;
+  align-items: center;
+  gap: var(--space-150);
+}
+
+.modal-copy-btn,
+.modal-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  padding-inline: var(--space-200);
+  border-radius: 100px;
+  background: rgba(255,255,255,0.14);
+  color: var(--c-white);
+  font-family: var(--f-sans);
+  font-size: 12.5px;
+  font-weight: 500;
+  transition: background 0.15s;
+}
+.modal-close { width: 30px; padding-inline: 0; font-size: 14px; }
+.modal-copy-btn:hover,
+.modal-close:hover { background: rgba(255,255,255,0.28); }
+
+.modal-header .post-meta { color: rgba(255,255,255,0.75); }
+.modal-header .post-date { color: rgba(255,255,255,0.9); }
+.modal-header .featured-badge { background: rgba(255,255,255,0.2); }
+
+.modal-header h2 {
+  font-family: var(--f-serif);
+  font-weight: 500;
+  font-size: clamp(26px, 4vw, 36px);
+  line-height: 1.2;
+  color: var(--c-white);
+  margin-top: var(--space-200);
+  max-width: 560px;
+}
+
+.modal-body {
+  padding: var(--space-600);
+  max-height: none;
+}
+
+.modal-body p {
+  font-family: var(--f-sans);
+  font-weight: 300;
+  font-size: 16.5px;
+  line-height: 1.75;
+  color: var(--c-dark);
+  margin-bottom: var(--space-300);
+}
+
+.modal-body h2 {
+  font-family: var(--f-serif);
+  font-weight: 600;
+  font-size: 23px;
+  color: var(--c-dark);
+  margin-top: var(--space-500);
+  margin-bottom: var(--space-200);
+}
+.modal-body h2:first-child { margin-top: 0; }
+
+.modal-body h3 {
+  font-family: var(--f-serif);
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--c-dark);
+  margin-top: var(--space-400);
+  margin-bottom: var(--space-150);
+}
+
+.modal-body ul, .modal-body ol {
+  margin: 0 0 var(--space-300) var(--space-250);
+  font-family: var(--f-sans);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--c-dark);
+}
+.modal-body ul { list-style: disc; }
+.modal-body ol { list-style: decimal; }
+.modal-body li { margin-bottom: var(--space-150); }
+.modal-body li strong { color: var(--c-dark); font-weight: 600; }
+
+.modal-body blockquote {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--c-dark);
+  border-left: 3px solid var(--c-red);
+  padding-left: var(--space-300);
+  margin: var(--space-400) 0;
+}
+
+.modal-body a { color: var(--c-accent); text-decoration: underline; text-underline-offset: 2px; }
+.modal-body a:hover { color: var(--c-red); }
+.modal-body img { max-width: 100%; height: auto; border-radius: var(--space-100); }
+.modal-body em { font-style: italic; }
+
+.modal-body .post-feature-img {
+  width: 100%;
+  border-radius: var(--space-150);
+  margin-bottom: var(--space-400);
+}
+
+/* PULL QUOTE */
+.pull-quote {
+  background: var(--c-light-bg);
+  border-left: 4px solid var(--c-accent);
+  padding: var(--space-400);
+  margin: var(--space-400) 0;
+}
+.pull-quote p {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--c-dark);
+  margin-bottom: 0;
+}
+.pull-quote .attribution {
+  margin-top: var(--space-200);
+  font-family: var(--f-sans);
+  font-style: normal;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--c-gray);
+}
+
+/* BIO SECTION */
+.bio-section {
+  border-top: 1px solid rgba(13,13,12,0.1);
+  margin-top: var(--space-500);
+  padding-top: var(--space-500);
+}
+.bio-label {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--c-red);
+  margin-bottom: var(--space-300);
+}
+.bio-inner {
+  display: flex;
+  gap: var(--space-400);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.bio-photo {
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.bio-name {
+  font-family: var(--f-serif);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--c-dark);
+  margin-bottom: var(--space-100);
+}
+.bio-title {
+  font-family: var(--f-sans);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--c-gray);
+  margin-bottom: var(--space-200);
+}
+.bio-text p {
+  font-family: var(--f-sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--c-dark);
+  margin-bottom: var(--space-150);
+}
+
+/* STAT ROW */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-300);
+  margin: var(--space-500) 0;
+}
+.stat-box {
+  background: var(--c-light-bg);
+  border-radius: var(--space-150);
+  padding: var(--space-400) var(--space-200);
+  text-align: center;
+}
+.stat-box .num {
+  font-family: var(--f-serif);
+  font-weight: 600;
+  font-size: clamp(30px, 4vw, 42px);
+  color: var(--c-accent);
+  line-height: 1;
+  margin-bottom: var(--space-100);
+}
+.stat-box .label {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--c-gray-dark);
+}
+@media (max-width: 560px) {
+  .stat-row { grid-template-columns: 1fr; }
+}
+
+/* GRANT LIST */
+.grant-list {
+  border-top: 1px solid rgba(13,13,12,0.1);
+  margin: var(--space-300) 0 var(--space-400);
+}
+.grant-list li {
+  padding-block: var(--space-300);
+  border-bottom: 1px solid rgba(13,13,12,0.09);
+}
+.grant-list li strong {
+  display: block;
+  font-family: var(--f-serif);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--c-dark);
+  margin-bottom: var(--space-100);
+}
+.grant-list li p {
+  font-family: var(--f-sans);
+  font-weight: 300;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--c-dark);
+  margin-bottom: var(--space-100);
+}
+.grant-list li .pis {
+  display: block;
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.3px;
+  color: var(--c-red);
+}
+
+/* RFP TOGGLE */
+.rfp-toggle-wrap { margin-top: var(--space-500); }
+.rfp-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-200);
+  width: 100%;
+  padding: var(--space-300) var(--space-400);
+  background: var(--c-light-bg);
+  border-radius: var(--space-100);
+  font-family: var(--f-sans);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--c-dark);
+  transition: background 0.15s, color 0.15s;
+}
+.rfp-toggle:hover { background: #efece5; }
+.rfp-toggle[aria-expanded="true"] { background: var(--c-dark); color: var(--c-white); }
+.rfp-toggle-icon { color: var(--c-red); flex-shrink: 0; display: flex; }
+.rfp-toggle[aria-expanded="true"] .rfp-toggle-icon { color: #ff8a75; }
+.rfp-toggle-label { flex: 1; text-align: left; }
+.rfp-toggle-chevron { flex-shrink: 0; display: flex; transition: transform 0.2s; }
+.rfp-toggle[aria-expanded="true"] .rfp-toggle-chevron { transform: rotate(180deg); }
+
+.rfp-content {
+  padding: var(--space-400) var(--space-100) 0;
+}
+.rfp-content h2 { margin-top: var(--space-400); }
+.rfp-content h2:first-child { margin-top: 0; }
+.rfp-content p, .rfp-content li {
+  font-family: var(--f-sans);
+  font-weight: 300;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--c-dark);
+}
+.rfp-content ol, .rfp-content ul { margin: var(--space-150) 0 var(--space-300) var(--space-250); }
+.rfp-content ol { list-style: decimal; }
+.rfp-content ul { list-style: disc; }
+
+.rfp-dates {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-300) 0;
+  font-family: var(--f-sans);
+}
+.rfp-dates tr { border-bottom: 1px solid rgba(13,13,12,0.1); }
+.rfp-dates td { padding: var(--space-150) var(--space-200); font-size: 14px; color: var(--c-dark); }
+.rfp-dates td:first-child { font-weight: 600; color: var(--c-dark); }
+
+/* Editorial note (kept from source content — factual context, not a promo CTA) */
+.newsletter-note {
+  font-family: var(--f-sans);
+  font-style: italic;
+  font-size: 13.5px;
+  color: var(--c-gray);
+  background: var(--c-light-bg);
+  border-left: 3px solid var(--c-muted);
+  padding: var(--space-200) var(--space-300);
+  border-radius: 0 var(--space-100) var(--space-100) 0;
+  margin-bottom: var(--space-400);
+}
+
+/* =============================================================================
+   Responsive
+   ============================================================================= */
+@media (max-width: 900px) {
+  .feed-hero__subtitle { white-space: normal; }
+  .feed__controls { align-items: flex-start; flex-direction: column; }
+  .bio-inner { flex-direction: column; align-items: flex-start; }
+  .modal-header { padding: var(--space-400); }
+  .modal-body { padding: var(--space-400); }
+
+  /* collapse the wide meta-rail row layout back to a single stacked column */
+  .post-card { grid-template-columns: 1fr; }
+  .post-meta {
+    grid-column: 1; grid-row: 1;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-150);
+    margin-bottom: var(--space-200);
+  }
+  .post-item h2 { grid-column: 1; grid-row: 2; }
+  .post-excerpt { grid-column: 1; grid-row: 3; }
+  .post-item-footer { grid-column: 1; grid-row: 4; flex-wrap: wrap; }
+}
+
+@media (max-width: 600px) {
+  .modal-overlay { padding: 0; }
+  .modal-box { margin-block: 0; min-height: 100vh; border-radius: 0; }
+  .stat-row { grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+<body>
+
+  <!-- ================= HERO ================= -->
+  <header class="feed-hero">
+    <div class="feed-hero__inner">
+      <h1 class="feed-hero__title">A MEDIATED Feed</h1>
+      <p class="feed-hero__subtitle">News, announcements, and insights from the Center on Media, Technology, and Democracy.</p>
+    </div>
+  </header>
+
+  <!-- ================= FEED ================= -->
+  <main class="feed">
+    <div class="feed__inner">
+      <div class="feed__head">
+        <span class="feed__label">Latest Updates</span>
+        <span class="feed__count" id="feed-count">12 posts</span>
+      </div>
+
+      <div class="feed__controls">
+        <div class="feed__filters" id="feed-filters" role="group" aria-label="Filter by category">
+          <button type="button" class="filter-pill is-active" data-filter="all">All</button>
+          <button type="button" class="filter-pill" data-filter="Announcements">Announcements</button>
+          <button type="button" class="filter-pill" data-filter="Research">Research</button>
+          <button type="button" class="filter-pill" data-filter="People">People</button>
+          <button type="button" class="filter-pill" data-filter="Events">Events</button>
+          <button type="button" class="filter-pill" data-filter="Grants">Grants</button>
+        </div>
+        <div class="feed__sort">
+          <label class="feed__sort-label" for="sort-select">Sort by</label>
+          <select id="sort-select" class="sort-select">
+            <option value="recent">Most Recent</option>
+            <option value="oldest">Oldest First</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="post-list" id="post-list">
+
+<article class="post-item" id="post-amy-gutmann" data-date="2026-04" data-category="People">
+          <div class="post-card">
+            <div class="post-meta">
+              <span class="featured-badge">Featured</span>
+              <span class="post-date">April 2026</span>
+            </div>
+            <h2>President Emerita Amy Gutmann Joins Penn MEDIATED as Faculty Advisor</h2>
+            <p class="post-excerpt">Penn MEDIATED is honored to welcome one of the foremost scholars of democratic governance, Penn President Emerita Amy Gutmann, as a faculty advisor. The longest-serving president in the University of Pennsylvania's history and an appointee of both President Barack Obama and President Joe Biden.</p>
+            <div class="post-item-footer">
+              <button class="expand-btn" onclick="openModal('amy-gutmann')">
+                <span class="expand-label">Read more</span> <span class="expand-icon">→</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="post-full-content" id="content-amy-gutmann">
+            <div class="post-full-content-inner">
+
+              <p>Penn MEDIATED is honored to welcome one of the foremost scholars of democratic governance, Penn President Emerita Amy Gutmann, as a faculty advisor. The longest-serving president in the University of Pennsylvania's history and an appointee of both President Barack Obama and President Joe Biden, Professor Gutmann brings decades of civic leadership, as well as a rare combination of scholarly rigor and real-world impact, to Penn MEDIATED.</p>
+
+              <p>Executive Director Alex Engler reflects:</p>
+
+              <div class="pull-quote">
+                <p>"From seminal scholarship on democratic deliberation; to advancing global dialogue as Penn's President; to strengthening alliances and combatting violent extremism as the U.S. Ambassador to Germany—the information ecosystem has been a guiding theme of her exemplary career. We are thrilled to welcome President Gutmann to the Center's leadership."</p>
+              </div>
+
+              <p>In joining Penn MEDIATED, Professor Gutmann says:</p>
+
+              <div class="pull-quote">
+                <p>"The health of our democracy depends on the health of our information ecosystem. Seeking truth and understanding is not a utopian ideal; it is a prerequisite for a functioning republic. I am proud to join Penn MEDIATED and contribute to its vision of translating our rigorous research into democratic well-being."</p>
+              </div>
+
+              <p>As a scholar, Gutmann has made seminal contributions on <a href="https://press.princeton.edu/books/paperback/9780691009162/democratic-education" target="_blank">democratic education</a>, <a href="https://www.hks.harvard.edu/publications/democracy-and-disagreement" target="_blank">deliberative democracy</a>, and the <a href="https://press.princeton.edu/books/hardcover/9780691153919/the-spirit-of-compromise" target="_blank">necessity of compromise for governance</a>. As a member of the <a href="https://www.aspeninstitute.org/blog-posts/the-knight-commission-on-trust-media-and-democracy/" target="_blank">Knight Commission on Trust, Media, and Democracy</a>, Gutmann contributed to the Commission's flagship report diagnosing the collapse of a shared information foundation as a core threat to American self-governance.</p>
+
+              <p>Penn MEDIATED Co-Director and Penn Integrates Knowledge Professor Duncan Watts observes:</p>
+
+              <div class="pull-quote">
+                <p>"President Emerita Gutmann has a lifetime of experience transforming academic research into real world change—we are grateful for her help now, when it is more essential than ever to foster a healthier information ecosystem."</p>
+              </div>
+
+              <p>From 2022–2024, Gutmann served as the U.S. Ambassador to Germany, where she strengthened the U.S.-German relationship through expanded support for Ukrainian defense, increased trade, and bolstered resistance to extremism. She has since rejoined Penn and currently holds the Christopher H. Browne Distinguished Professorship in Political Science and is a Professor of Communication at the Annenberg School for Communication.</p>
+
+              <p>Christopher Yoo, Penn MEDIATED Co-Director and Imasogie Professor in Law and Technology, adds:</p>
+
+              <div class="pull-quote">
+                <p>"Amy Gutmann has always been an authoritative voice and unflinching champion for a stronger and more deliberative democracy. We look forward to Amy opening our inaugural Penn MEDIATED conference at the end of August."</p>
+              </div>
+
+              <div class="bio-section">
+                <div class="bio-label">About the Faculty Advisor</div>
+                <div class="bio-inner">
+                  <img src="https://penn-mediated.github.io/MEDIATED-blog/images/gutmann.jpg" alt="Amy Gutmann" class="bio-photo" style="object-fit:cover;" />
+                  <div>
+                    <div class="bio-name">Amy Gutmann</div>
+                    <div class="bio-title">
+                      Christopher H. Browne Distinguished Professor of Political Science, School of Arts and Sciences<br>
+                      Professor of Communication, Annenberg School for Communication<br>
+                      President Emerita, University of Pennsylvania
+                    </div>
+                    <div class="bio-text">
+                      <p>Amy Gutmann is the Christopher H. Browne Distinguished Professor of Political Science at the School of Arts and Sciences and Professor of Communication at the Annenberg School for Communication. She is also President Emerita, having had a transformative impact as the <a href="https://www.asc.upenn.edu/people/faculty/amy-gutmann-phd" target="_blank">longest-serving president</a> of the University of Pennsylvania. From 2022–2024, Gutmann served as the U.S. Ambassador to Germany, where she strengthened the U.S.-German relationship through expanded support for Ukrainian defense, increased trade, and bolstered resistance to extremism.</p>
+                      <p>As a scholar, Gutmann has made seminal contributions on <a href="https://press.princeton.edu/books/paperback/9780691009162/democratic-education" target="_blank">democratic education</a>, <a href="https://www.hks.harvard.edu/publications/democracy-and-disagreement" target="_blank">deliberative democracy</a>, and the <a href="https://press.princeton.edu/books/hardcover/9780691153919/the-spirit-of-compromise" target="_blank">necessity of compromise for governance</a>. Gutmann served as a member of the Knight Commission on Trust, Media, and Democracy (2017–2019), informing a <a href="https://www.aspeninstitute.org/wp-content/uploads/2025/05/Knight2019.pdf" target="_blank">groundbreaking report</a> unpacking the crisis of democratic backsliding in the United States and recommendations for restoring public trust. Further, in 2009, President Obama appointed Gutmann as chair of the Presidential Commission for the Study of Bioethical Issues, where she helped guide national conversations on pressing public health challenges in the United States. Gutmann served as an Executive Committee member of the National Constitution Center and in 2018, she was named in <em>Fortune Magazine</em>'s "<a href="https://fortune.com/longform/worlds-greatest-leaders-2018/" target="_blank">World's 50 Greatest Leaders</a>."</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </article>
+
+        <!-- ═══════════════════════════════════════════════════
+             POST: Welcoming Our New Knight Fellows
+        ════════════════════════════════════════════════════ -->
+        <article class="post-item" id="post-knight-fellows" data-date="2026-07" data-category="People">
+          <div class="post-card">
+            <div class="post-meta">
+              <span class="post-date">July 2026</span>
+            </div>
+            <h2>Welcoming Our New Knight Fellows</h2>
+            <p class="post-excerpt">Penn MEDIATED is pleased to welcome three new Knight Fellows this year, expanding our Penn community of researchers who bring empirical rigor to the study of the information ecosystem and its impact on democracy. We're excited to welcome Thomas Chamberlain, Jacky Liang, and Burak Ozturan to the <a href="https://infodem.upenn.edu/team/" target="_blank">Penn MEDIATED community</a>.</p>
+            <div class="post-item-footer">
+              <button class="expand-btn" onclick="openModal('knight-fellows')">
+                <span class="expand-label">Read more</span> <span class="expand-icon">→</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="post-full-content" id="content-knight-fellows">
+            <div class="post-full-content-inner">
+
+              <p>Penn MEDIATED is pleased to welcome three new Knight Fellows this year, expanding our Penn community of researchers who bring empirical rigor to the study of the information ecosystem and its impact on democracy. We're excited to welcome Thomas Chamberlain, Jacky Liang, and Burak Ozturan to the <a href="https://infodem.upenn.edu/team/" target="_blank">Penn MEDIATED community</a>.</p>
+
+              <h2>Incoming Fellows</h2>
+
+              <p>Knight Postdoctoral Fellow <strong>Thomas Chamberlain</strong> is a quantitative political scientist who studies elections, voting behavior, and the democratic consequences of the political information ecosystem. His work examines how voters weigh policy agreement across different issues, how political actors and media manipulate issue salience, and the downstream effects on how people vote and how parties compete—drawing on survey experiments, causal inference, measurement models, and text-as-data methods. [<a href="https://thomasfchamberlain.com/index.html" target="_blank">Personal Webpage</a>]</p>
+
+              <p>Knight PhD Fellow <strong>Jacky Liang</strong> is a PhD student in the Political Science Department, studying how communication shapes political trust and democratic accountability, with a particular focus on political promises and how citizens evaluate political actors. He uses computational social science methods, survey and panel data, and experiments to understand how information influences political attitudes and behavior. [<a href="https://jacky-liang.com/" target="_blank">Personal Webpage</a>]</p>
+
+              <p>Knight Postdoctoral Fellow <strong>Burak Ozturan</strong> studies the complex interaction between people and information: how information is produced and distributed by modern technologies, how people engage with it, and how these dynamics shape democratic deliberation. Burak completed his Ph.D. in Network Science at Northeastern University, where his doctoral research examined patterns of concentration and segregation in online information ecosystems. Most recently, he has been studying how generative AI affects the production and circulation of information, and whether these systems broaden or narrow the range of sources people encounter. [<a href="http://www.burakozturan.com/" target="_blank">Personal Webpage</a>]</p>
+
+              <h2>Outgoing Fellow</h2>
+
+              <p>We also want to congratulate outgoing Knight Postdoctoral Fellow <strong>Amir Tohidi</strong> as he moves onto a new postdoctoral role with the Faculty of Business and Economics at the University of Basel. Amir is a computational social scientist examining how media, technology, and artificial intelligence shape public opinion and democratic processes. He combines large-scale experiments, causal inference, and machine learning to study persuasion, misinformation, and political communication. His recent work focuses on news framing, media bias, and AI-generated content—how subtle differences in the selection and presentation of factual information can influence public opinion. [<a href="https://amirtohidi.github.io/" target="_blank">Personal Webpage</a>]</p>
+
+              <h2>Current Fellows</h2>
+
+              <p>Our returning fellows form the continuing core of this community, and their work spans the full arc of the information ecosystem—from what media covers, to how platforms govern speech, to how AI systems mediate what reaches the public.</p>
+
+              <p><strong>Yijing Chen</strong>, a Knight Postdoctoral Fellow, studies how political divisions are embedded, intensified, or potentially bridged through the social structures of contemporary sociotechnical systems. She develops network-based computational methods across digital trace, survey, and mass media data. Her current project examines how online communities evolve before platform interventions, and how their longer-term trajectories can better inform the evaluation of content moderation. [<a href="https://cyijing.com/" target="_blank">Personal Webpage</a>]</p>
+
+              <p><strong>Nolan Siegel</strong> is a joint PhD student in Political Science and the Annenberg School for Communication, also pursuing a Master's in Statistics &amp; Data Science at Wharton. His research focuses on crime and its apprehension in American politics: how journalism discusses crime, how constituents think about it, and the extent to which it influences elections. He came to Penn after working as a data science contractor supporting U.S. Intelligence Community entities and other federal agencies. [<a href="https://github.com/nolansiegel" target="_blank">Personal Webpage</a>]</p>
+
+              <p><strong>Elliott Pickens</strong> is a PhD student in Computer and Information Science at Penn, co-advised by Duncan Watts and Chris Callison-Burch. His research centers on language models: how they work and how to use them effectively. [<a href="https://epickens.github.io/" target="_blank">Personal Webpage</a>]</p>
+
+              <p>At Penn MEDIATED, we are bringing together a growing number of <a href="https://infodem.upenn.edu/faculty/" target="_blank">leading faculty</a> and <a href="https://penn-mediated.github.io/Team/" target="_blank">scholars</a>, helping make Penn the leading institution for the empirical study of the information ecosystem and its impact on democracy.</p>
+
+            </div>
+          </div>
+        </article>
+
+
+        <!-- ═══════════════════════════════════════════════════
+             POST: GNI Membership — June 2026
+        ════════════════════════════════════════════════════ -->
+        <article class="post-item" id="post-gni-membership" data-date="2026-06" data-category="Announcements">
+          <div class="post-card">
+            <div class="post-meta">
+              <span class="post-date">June 2026</span>
+            </div>
+            <h2>Penn MEDIATED Announces Membership with the Global Network Initiative</h2>
+            <p class="post-excerpt">Penn MEDIATED is delighted to announce our <a href="https://globalnetworkinitiative.org/gni-welcomes-new-member-penn-mediated/" target="_blank">membership with the Global Network Initiative</a>—a diverse community of institutions and experts working to advance a free and democratic technological future.</p>
+            <div class="post-item-footer">
+              <button class="expand-btn" onclick="openModal('gni-membership')">
+                <span class="expand-label">Read more</span> <span class="expand-icon">→</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="post-full-content" id="content-gni-membership">
+            <div class="post-full-content-inner">
+
+              <p>Penn MEDIATED is delighted to announce our <a href="https://globalnetworkinitiative.org/gni-welcomes-new-member-penn-mediated/" target="_blank">membership with the Global Network Initiative</a>—a diverse community of institutions and experts working to advance a free and democratic technological future. Tackling the increasingly complex challenges to the health of the information ecosystem requires cross-sector collaboration, and GNI's multistakeholder forum is a critical venue for this work; Penn MEDIATED is excited to contribute a perspective informed by modern computational research.</p>
+
+              <div class="pull-quote">
+                <p>"We are thrilled to have Penn MEDIATED join GNI's Academic Constituency. Their focus on data-driven analysis of the information ecosystem, and the breadth of expertise and research undertaken by their affiliated faculty, will bring incredible insights and value-add to GNI and our members."</p>
+                <p class="attribution">— Jason Pielemeier, Executive Director, GNI</p>
+              </div>
+
+              <p>In joining GNI's academic constituency and broader expert community, we hope to integrate Penn's cutting-edge science of the information ecosystem into the vital discussions on policies and practices relevant to technology and human rights. For example, our project focused on <a href="https://infodem.upenn.edu/llm-civic-discourse/" target="_blank">how LLMs shape civic discourse</a>—including longitudinal monitoring of how LLMs discuss legal, political, and election information over time—can help target technical interventions and drive informed policy. In addition, our support of computational social science research investigating narrative formation on topics like censorship, can inform and improve on pro-democracy messaging.</p>
+
+              <div class="pull-quote">
+                <p>"GNI brings together a remarkably diverse set of institutions and leaders, and its forum creates rare conditions for genuine cross-sector collaboration. For Penn MEDIATED, membership means a direct channel to connect our empirical research on the information ecosystem with the practitioners who can act on it."</p>
+                <p class="attribution">— Alexis Frisbie, Engagement &amp; Policy Manager, Penn MEDIATED</p>
+              </div>
+
+              <p>As the information ecosystem becomes more complex, cross-disciplinary and independent empirical research plays a critical role in guiding informed policy, public discourse, and democratic resiliency—and we are ready to help navigate this future.</p>
+
+            </div>
+          </div>
+        </article>
+
+
+        <!-- ═══════════════════════════════════════════════════
+             POST: LLMs and Civic Discourse — April 2026
+        ════════════════════════════════════════════════════ -->
+        <article class="post-item" id="post-llm-civic-discourse" data-date="2026-04" data-category="Research">
+          <div class="post-card">
+            <div class="post-meta">
+              <span class="post-date">April 2026</span>
+            </div>
+            <h2>Introducing the Updated LLMs and Civic Discourse Research Dashboard</h2>
+            <p class="post-excerpt">We're launching a project on LLMs and Civic Discourse — and a new research dashboard featuring 71 papers on how large language models are reshaping the online information ecosystem.</p>
+            <div class="post-item-footer">
+              <button class="expand-btn" onclick="openModal('llm-civic-discourse')">
+                <span class="expand-label">Read more</span> <span class="expand-icon">→</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="post-full-content" id="content-llm-civic-discourse">
+            <div class="post-full-content-inner">
+
+              <p>Large Language Models (LLMs) are playing an increasingly substantial role in the information ecosystem and in civic discourse—that is, how LLMs discuss political topics, refer to politicians, and relate election information. LLMs <a href="https://arxiv.org/pdf/2510.01255" target="_blank">relate political information</a> in chatbots and search engines; <a href="https://www.techpolicy.press/researchers-explore-the-use-of-llms-for-content-moderation/" target="_blank">moderate content</a> on social media; are being <a href="https://arxiv.org/pdf/2604.01652" target="_blank">tested as factcheckers</a>—collectively LLMs likely regularly reach billions of people.</p>
+
+              <p>We believe the growing influence of LLMs will be central to the public discourse in the coming decades, which is why we&#x2019;re launching a project on LLMs and Civic Discourse.</p>
+
+              <p>We kicked off the project on March 4th, when Penn MEDIATED hosted an online convening of prominent academic researchers and civil society organizations to share results from, and approaches to, monitoring and evaluating LLM politics. As part of this, we&#x2019;ve documented and categorized much of the research in this field in the Center&#x2019;s new <a href="https://infodem.upenn.edu/llm-civic-discourse/" target="_blank">LLMs and Civic Discourse Research Dashboard</a>. As of today, it features 71 papers (with more to come!), with a focus on LLM chatbots, content moderation, and fact-checking. This resource is designed to help researchers, advocates, and policymakers keep up with the latest computational research on how LLMs are reshaping the online information ecosystem.</p>
+
+              <p>Each entry is organized by theme and paired with a plain-language summary of key findings to help distill complex research insights on this topic in an accessible manner. The dashboard covers research on how LLMs handle social and political topics, their role in content moderation and fact-checking, their potential to influence political beliefs and behavior, and their implications for democratic participation more broadly.</p>
+
+              <p>This convening and dashboard is one part of Penn MEDIATED&#x2019;s broader effort to bridge the research-to-impact gap on how LLMs are shaping civic discourse. We are also supporting novel research projects in this space through our <a href="https://infodem.upenn.edu/grants/" target="_blank">grants program</a>. We are also working closely with Penn MEDIATED faculty advisor Danaé Metaxa, and collaborating with partners at Princeton University, to build the technical infrastructure for large-scale, longitudinal monitoring of LLMs on political issues. Given that LLM responses are constantly evolving and in some cases, <a href="https://arxiv.org/pdf/2510.01255" target="_blank">based on undisclosed policy updates</a> by platforms, supporting longitudinal LLM monitoring is critical to ensure that researchers have the data needed to tackle these issues in real time.</p>
+
+              <p>Explore the dashboard here &#x2192; <a href="https://infodem.upenn.edu/llm-civic-discourse/" target="_blank">https://infodem.upenn.edu/llm-civic-discourse/</a></p>
+
+            </div>
+          </div>
+        </article>
+
+        <!-- ═══════════════════════════════════════════════════
+             POST: DFRLab Partnership — April 2026
+        ════════════════════════════════════════════════════ -->
+        <article class="post-item" id="post-dfrlab-partnership" data-date="2026-04" data-category="Announcements">
+          <div class="post-card">
+            <div class="post-meta">
+              <span class="post-date">April 2026</span>
+            </div>
+            <h2>Penn MEDIATED's Partnership with the Atlantic Council's Digital Forensics Research Lab for the 2026 Digital Sherlocks</h2>
+            <p class="post-excerpt">Penn MEDIATED is excited to officially announce our partnership with the Atlantic Council's Digital Forensics Research Lab for the 2026 Digital Sherlocks program — training the practitioners on the front lines of information integrity and democratic resilience.</p>
+            <div class="post-item-footer">
+              <button class="expand-btn" onclick="openModal('dfrlab-partnership')">
+                <span class="expand-label">Read more</span> <span class="expand-icon">→</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="post-full-content" id="content-dfrlab-partnership">
+            <div class="post-full-content-inner">
+
+              <!-- Partnership logos -->
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 1.75rem;">
+                <img src="https://penn-mediated.github.io/MEDIATED-blog/images/mediatedlogo.png" alt="Penn MEDIATED" style="width:100%;height:auto;display:block;border-radius:8px;" />
+                <img src="https://penn-mediated.github.io/MEDIATED-blog/images/dfrlab.jpg" alt="Atlantic Council Digital Forensics Research Lab" style="width:100%;height:auto;display:block;border-radius:8px;" />
+              </div>
+
+              <p>In 2026, the most influential indices of democratic health—the <a href="https://www.v-dem.net/documents/75/V-Dem_Institute_Democracy_Report_2026_lowres.pdf" target="_blank">Varieties of Democracy Index</a> and <a href="https://freedomhouse.org/sites/default/files/2026-03/FIW2026_final_digital%20%281%29.pdf" target="_blank">the Freedom in the World Report</a>—found continued declines in democracy globally. 74% of people worldwide now live in autocracies, at the expense of electoral and liberal democracies, including the U.S., which <a href="https://ourworldindata.org/grapher/political-regime-ert-within-regimes" target="_blank">slipped from a stable to an eroding democracy</a>.</p>
+
+              <!-- Our World in Data charts -->
+              <div class="owid-chart-grid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:1rem;margin:1.5rem 0;">
+                <iframe src="https://ourworldindata.org/grapher/people-living-in-democracies-autocracies?stackMode=relative&amp;tab=stacked-area" loading="lazy" style="width:100%;height:400px;border:0;border-radius:8px;display:block;" allow="web-share; clipboard-write"></iframe>
+                <iframe src="https://ourworldindata.org/grapher/political-regime-ert-within-regimes?tab=map" loading="lazy" style="width:100%;height:400px;border:0;border-radius:8px;display:block;" allow="web-share; clipboard-write"></iframe>
+              </div>
+
+              <p>Penn MEDIATED believes it is essential for universities to step up in the active defense of democracy—and those who work to protect and advance democratic values. To that end, Penn MEDIATED is excited to officially announce our partnership with the Atlantic Council's <a href="https://dfrlab.org/" target="_blank">Digital Forensics Research Lab</a> for the 2026 <a href="https://dfrlab.org/digital-sherlocks/" target="_blank">Digital Sherlocks</a> program.</p>
+
+              <p>The DFRLab, incubated at the Atlantic Council in 2016, maintains technical and policy expertise on disinformation, connective technologies, democracy, and the future of digital rights, while also <a href="https://dfrlab.org/research/" target="_blank">conducting investigations</a> exposing influence operations and emerging digital threats. The group's Digital Sherlocks program furthers this mission by training practitioners—members of civil society, journalists, researchers, and human rights defenders—on foundational concepts and frameworks to understand online influence operations, as well as open-source investigative techniques, tools, and methodologies.</p>
+
+              <p>Penn's Professors <strong><a href="https://infodem.upenn.edu/faculty/" target="_blank">Danaé Metaxa</a></strong>, <strong><a href="https://live-sas-www-polisci.pantheon.sas.upenn.edu/people/jane-esberg" target="_blank">Jane Esberg</a></strong>, and <strong><a href="https://infodem.upenn.edu/faculty/" target="_blank">Dolores Albarracín</a></strong> will contribute to the training, directly informing practitioners on the front lines of information integrity and democratic resilience. Professor Metaxa focuses on the bias and representation in sociotechnical systems and has conducted research and development of longitudinal generative AI auditing to track how models discuss (or decline to discuss) social issues. Professor Esberg's scholarship delves into authoritarian repression and censorship, particularly in Latin America and Spain, exploring the purpose of authoritarian censorship of non-political content and opponent repression in appealing to their supporters. Professor Albarracín studies the impact of communication and persuasion on human behavior and the formation of beliefs, attitudes, and goals, particularly those that are socially beneficial. Drawing from their empirical research and expertise, each will teach a module that offers attendees a deeper understanding of the information ecosystem and its manipulation by autocratic governments.</p>
+
+              <div class="quote-with-image" style="display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin:24px 0;">
+                <img src="https://penn-mediated.github.io/MEDIATED-blog/images/sherlocks.png" alt="Digital Sherlocks Program" style="width:220px;max-width:100%;height:auto;flex-shrink:0;border-radius:4px;" />
+                <div class="pull-quote" style="flex:1;min-width:260px;margin:0;">
+                  <p>"Since its inception in 2019, the Digital Sherlocks Program has grown to support a global community of more than 3,500 alumni from over 140 countries. These Digital Sherlocks, committed to monitoring and protecting information environments in their respective regions, are the heart of our movement."</p>
+                </div>
+              </div>
+
+              <p>Penn MEDIATED's partnership with the DFRLab offers a chance for practitioners to hear directly from academics with deep subject matter expertise, while offering Penn an ability to learn and hear what challenges, limits, and concerns defenders on the front lines face. Furthermore, DFRLab and Penn MEDIATED share a common vision: to develop and expand a network of expertise focused on the information ecosystem that can have real-world impact. Working toward this goal by bringing expert academics and practitioners together under the trusted Digital Sherlocks umbrella is an opportunity we are elated to see come to fruition.</p>
+
+            </div>
+          </div>
+        </article>
+
+
+        <!-- ═══════════════════════════════════════════════════
+             POST: Deceptive Networks — April 2026
+        ════════════════════════════════════════════════════ -->
+        <article class="post-item" id="post-deceptive-networks" data-date="2026-04" data-category="Research">
+          <div class="post-card">
+            <div class="post-meta">
+              <span class="post-date">April 2026</span>
+            </div>
+            <h2>New Research Demonstrates Extent of Deceptive Online Networks</h2>
+            <p class="post-excerpt">At least 40 million American Facebook and Instagram users were exposed to deceptive online networks ahead of the 2020 election — plus how we're addressing the limits of quantifying falsehoods.</p>
+            <div class="post-item-footer">
+              <button class="expand-btn" onclick="openModal('deceptive-networks')">
+                <span class="expand-label">Read more</span> <span class="expand-icon">→</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="post-full-content" id="content-deceptive-networks">
+            <div class="post-full-content-inner">
+
+              <p><em>Plus how we're addressing the limits of quantifying falsehoods</em></p>
+
+              <p>At least 40 million American Facebook and Instagram users were exposed to deceptive online networks in the lead up to the 2020 election—however this constituted only 0.3% of these users' total content consumption. This new paper, <a href="https://infodem.upenn.edu/research-compendium/#how-deceptive-online-networks-reached-millions-in-the-us-2020" target="_blank"><em>How deceptive online networks reached millions in the US 2020 elections</em></a>, contains the newest findings from the Meta 2020 Election project, by a prominent research team including Penn MEDIATED affiliated faculty <a href="https://infodem.upenn.edu/faculty" target="_blank">Sandra Gonzalez-Bailón and Deen Freelon</a>.</p>
+
+              <p>The study identified and tracked 49 deceptive online networks that reached 15% and 2% of active adult users in the U.S. on Facebook and Instagram, respectively. For context, this reach was less than a third of the <a href="https://www.intelligence.senate.gov/wp-content/uploads/2024/08/sites-default-files-documents-report-volume2.pdf" target="_blank">estimated 126 million Facebook users</a> reached by the Russian Internet Research Agency over two years.</p>
+
+              <p>Of these 49 networks, Meta identified 13 as politically motivated and 36 as financially motivated, and found the financially motivated networks reached more users. Mirroring past research, the study found that older, more conservative users, and users previously exposed to false news were more susceptible to these deceptive online networks. Moreover, a significant number of users were exposed to these deceptive networks indirectly, that is, by viewing reshares from regular user accounts who often unknowingly amplified inauthentic content to audiences beyond the networks' direct reach.</p>
+
+              <p>Despite these concerns, the authors found that it "accounts for a very small share of users' overall political content consumption," mirroring other studies, such as one from MEDIATED Co-Director Duncan Watts finding that <a href="https://www.science.org/doi/10.1126/sciadv.aay3539" target="_blank">fake news comprises</a> only 0.15% of Americans' daily media diet.</p>
+
+              <h3>Findings from the Meta 2020 Election Project</h3>
+
+              <p>The Meta 2020 Election project is an expansive collaborative effort between Meta and external academics to critically examine political attitudes and behaviors on the platform and its impact on the 2020 U.S. election. Professors Sandra Gonzalez-Bailón and Deen Freelon have been <a href="https://www.asc.upenn.edu/news-events/news/first-findings-us-2020-facebook-instagram-election-study-released" target="_blank">contributing to this project for years</a>, leading to essential research results including:</p>
+
+              <ul>
+                <li><a href="https://infodem.upenn.edu/research-compendium/#the-diffusion-and-reach-of-misinformation-on-facebook-during" target="_blank">Studying the diffusion</a> of more than one billion posts during the 2020 election, misinformation was found to spread slowly on Facebook, "powered by a tiny minority of users who tend to be older and more conservative."</li>
+                <li>News that a Facebook user saw on their feed during the US 2020 election <a href="https://infodem.upenn.edu/research-compendium/#asymmetric-ideological-segregation-in-exposure-to-political-n" target="_blank">depended on their own political leanings</a>, and, overall political news on Facebook leaned conservative.</li>
+                <li><a href="https://infodem.upenn.edu/research-compendium/#the-effect-of-deactivating-facebook-and-instagram-on-users-e" target="_blank">Deactivating Facebook and Instagram</a> in the weeks before the 2020 US presidential election modestly improved people's mental health—the effect was more pronounced for Facebook.</li>
+              </ul>
+
+              <p>The breadth of this research demonstrates what cooperation between academics and the private sector companies can enable, but this model is threatened by both concerns that Meta has <a href="https://www.techpolicy.press/a-primer-on-the-meta-2020-us-election-research-studies/" target="_blank">selectively emphasized some results</a> in a self-preferencing manner, and further that platforms have restricted researcher access to platform data, as <a href="https://infodem.upenn.edu/research-compendium/#the-post-api-age-of-social-media-data-access-past-present-an" target="_blank">thoroughly documented</a> by Professor Freelon.</p>
+
+              <h3>Advancing New Computational Measures of False Narratives</h3>
+
+              <p>Also published on April 6th, <a href="https://www.tandfonline.com/doi/full/10.1080/10584609.2026.2644198" target="_blank">a new paper</a> from the <a href="https://citap.unc.edu/" target="_blank">Center for Information, Technology, and Public Life</a> provides an alternative framework to measure and assess the impact of disinformation. According to this view, studying disinformation must go beyond looking at false facts and view it more as narratives that permeate across platforms. These narratives are deeply linked to social identities and hold emotional resonance for those who believe it. Thus, countering disinformation requires understanding its socio-cultural and moral context, which can often be obscured when counter-disinformation efforts narrowly focus on refuting false claims or limiting its exposure on a single platform.</p>
+
+              <p>This framing on the importance of narratives to understand the dynamics of online disinformation mirrors our perspective at Penn MEDIATED. Already, Professor Watts has found that the <a href="https://infodem.upenn.edu/research-compendium/#rethinking-news-framing-with-large-language-models" target="_blank">selective use of facts</a> can be as effective as false information in changing political beliefs. We're investing in new research to expand on this, by developing new computational approaches to measure media narratives using large language models. The new research from the Meta 2020 Election project provides valuable insight into the extent of the impact of deceptive online networks—showing that their reach is limited, and also that we need to develop new methods to understand disinformation narratives at scale and across platforms.</p>
+
+            </div>
+          </div>
+        </article>
+
+        <!-- ═══════════════════════════════════════════════════
+             POST 2: Research Compendium
+        ════════════════════════════════════════════════════ -->
+        <article class="post-item" id="post-research-compendium" data-date="2026-04" data-category="Research">
+          <div class="post-card">
+            <div class="post-meta">
+              <span class="post-date">April 2026</span>
+            </div>
+            <h2>Launching the Research Compendium</h2>
+            <p class="post-excerpt">We're excited to formally launch our Research Compendium — an ongoing effort to comprehensively curate Penn's research on the information ecosystem and its impact on democracy.</p>
+            <div class="post-item-footer">
+              <button class="expand-btn" onclick="openModal('research-compendium')">
+                <span class="expand-label">Read more</span> <span class="expand-icon">→</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="post-full-content" id="content-research-compendium">
+            <div class="post-full-content-inner">
+
+              <a href="https://infodem.upenn.edu/research-compendium/" target="_blank"><img src="https://penn-mediated.github.io/MEDIATED-blog/images/dashboard.gif" alt="Research Compendium preview" class="post-feature-img" /></a>
+
+              <p>We're excited to formally launch our Research Compendium—an ongoing effort to comprehensively curate Penn's research on the information ecosystem and its impact on democracy. With categorical tags and search, we want to make it easier for you to find essential research about polarization, misinformation, persuasion, social media, LLMs, and more. For each paper, we provide an overview of the research, its key findings, and a note on why it matters beyond academia. <a href="https://penn-mediated.github.io/Research-Compendium/" target="_blank">Check it out here!</a></p>
+
+            </div>
+          </div>
+        </article>
+
+
+        <!-- ═══════════════════════════════════════════════════
+             POST 3: Affiliated Faculty
+        ════════════════════════════════════════════════════ -->
+        <article class="post-item" id="post-affiliated-faculty" data-date="2026-03" data-category="People">
+          <div class="post-card">
+            <div class="post-meta">
+              <span class="post-date">March 2026</span>
+            </div>
+            <h2>Announcing our Affiliated Faculty</h2>
+            <p class="post-excerpt">We're proud to introduce Penn MEDIATED's affiliated faculty members — distinguished by their rigorous empirical research advancing our collective understanding of the information ecosystem and its impact on democracy.</p>
+            <div class="post-item-footer">
+              <button class="expand-btn" onclick="openModal('affiliated-faculty')">
+                <span class="expand-label">Read more</span> <span class="expand-icon">→</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="post-full-content" id="content-affiliated-faculty">
+            <div class="post-full-content-inner">
+
+              <a href="https://infodem.upenn.edu/faculty/" target="_blank"><img src="https://penn-mediated.github.io/MEDIATED-blog/images/faculty.gif" alt="Affiliated Faculty" class="post-feature-img" /></a>
+
+              <p>We're proud to introduce Penn MEDIATED's affiliated faculty members—distinguished by their rigorous empirical research advancing our collective understanding of the information ecosystem and its impact on democracy. This required real consideration of what exactly we do at Penn MEDIATED—what does it mean to study the information ecosystem? Our faculty are distinguished by their rigorous empirical and computational work, but also by a focus on those mediating actors that make up the information landscape: especially individuals from peers to elites; institutions of media and government; and technologies from podcast platforms to large language models.</p>
+
+              <p>Emily Falk's (Annenberg School) research looks at how messages affect individuals, for instance, <a href="https://pubmed.ncbi.nlm.nih.gov/41200100/" target="_blank">using neuroimaging</a> to understand why some messages are more persuasive than others. Dolores Albarracín (Annenberg Public Policy) demonstrates what interventions to change belief can actually <a href="https://myscp.onlinelibrary.wiley.com/doi/abs/10.1002/jcpy.70014" target="_blank">impact people's behavior</a>. Diana Mutz (Annenberg School) discovered <a href="https://www.pnas.org/doi/10.1073/pnas.2516942122" target="_blank">a significant increase</a> in political discussions in the U.S., but no increase in conversations across the political aisle. Eric Santoro (Wharton School) examines this peer-to-peer dialogue more closely, with <a href="https://www.pnas.org/doi/10.1073/pnas.2421982122" target="_blank">recent research</a> challenging the notion that listening to those who disagree with you helps to persuade them. Matt Levendusky (Political Science) finds that disagreeable statements and opinions <a href="https://www.journals.uchicago.edu/doi/abs/10.1086/733004?journalCode=jop" target="_blank">motivate cancel culture</a>. Chris Callison-Burch (Computer and Information Science) is working with Duncan Watts to monitor the <a href="https://dl.acm.org/doi/10.1145/3706598.3713716" target="_blank">evolution of TV news bias</a>. Deen Freelon (Annenberg School) is documenting how <a href="https://journals.sagepub.com/doi/full/10.1177/00027162251372557" target="_blank">social media platforms enable or stymie research</a>—like analyses from Dean Knox (Wharton School), whose results <a href="https://www.pnas.org/doi/abs/10.1073/pnas.2318127122" target="_blank">find no evidence</a> that YouTube's algorithms radicalize users in the short-term. Shiri Melumad's (Wharton School) <a href="https://academic.oup.com/pnasnexus/article/4/10/pgaf316/8303888" target="_blank">work</a> asks whether relying on LLMs adversely impacts learning outcomes as compared to using search engines.</p>
+
+              <p>Penn MEDIATED also welcomes John Lapinski (Political Science); Blake Miller (Political Science); Pinar Yildirim (Wharton School); Michael Morse (Carey Law); Lyle Ungar (Computer &amp; Information Science); Dennis Culhane (Social Policy and Practice); and Dan Roth (Computer &amp; Information Science). These esteemed faculty join the Center's two faculty directors and six faculty advisors—you can read more on our <a href="https://infodem.upenn.edu/faculty/" target="_blank">new affiliated faculty page</a>.</p>
+
+              <p><a href="https://infodem.upenn.edu/faculty/" target="_blank" class="read-more">Learn more →</a></p>
+
+            </div>
+          </div>
+        </article>
+
+
+        <!-- ═══════════════════════════════════════════════════
+             POST 4: Grant Awards
+        ════════════════════════════════════════════════════ -->
+        <article class="post-item" id="post-grant-awards" data-date="2026-02" data-category="Grants">
+          <div class="post-card">
+            <div class="post-meta">
+              <span class="post-date">February 2026</span>
+            </div>
+            <h2>Penn MEDIATED Research Grants</h2>
+            <p class="post-excerpt">In the inaugural year of the Penn MEDIATED Research Grant Program, the Center funded 12 grants totaling $160,000 — including projects that will build essential datasets, develop new software tools, and experimentally test new interventions. The next RFP will open in late summer or early fall 2026.</p>
+            <div class="post-item-footer">
+              <button class="expand-btn" onclick="openModal('grant-awards')">
+                <span class="expand-label">Read more</span> <span class="expand-icon">→</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="post-full-content" id="content-grant-awards">
+            <div class="post-full-content-inner">
+
+              <p>The 2025 Penn MEDIATED Research Grants have been awarded. Please check back for our next RFP in late summer or early fall, 2026.</p>
+
+              <div class="stat-row">
+                <div class="stat-box">
+                  <div class="num">12</div>
+                  <div class="label">Grants Awarded</div>
+                </div>
+                <div class="stat-box">
+                  <div class="num">$160K</div>
+                  <div class="label">Total Funding</div>
+                </div>
+                <div class="stat-box">
+                  <div class="num">50%</div>
+                  <div class="label">Cross-School Collaborations</div>
+                </div>
+              </div>
+
+              <p>In the inaugural year of the Penn MEDIATED Research Grant Program, the Center funded 12 grants for a total of $160,000, including projects that will build essential datasets, develop new software tools, define novel taxonomies, apply emerging computational and AI methods, and experimentally test new interventions.</p>
+
+              <p>These projects demonstrate our Center's commitment to understanding and strengthening our information ecosystem at a moment of profound technological change and extraordinary democratic crisis. They make critical contributions across three dimensions of information and democracy research: unpacking how media ecosystems shape public understanding, examining AI's expanding role as an information intermediary, and investigating communication strategies that enable persuasion and common ground. The grant program has already been successful in its goal of promoting interdisciplinary collaboration at Penn: half of the grants are jointly led by two or more researchers at different Penn schools.</p>
+
+              <h2>Unpacking the Media Ecosystem</h2>
+              <p>These research projects seek to examine systematic patterns in media coverage, from what gets reported to who controls the outlets doing the reporting. One project, led by Center Director Duncan Watts and Knight Postdoctoral Fellow Amir Tohidi, investigates which crimes receive media attention and how coverage compares to actual crime statistics, helping explain the troubling disconnect between declining crime rates but elevated and persistent public concern about crime. A second funded project looks into how media ownership structures and takeovers influence civic coverage and orientation toward incumbent governments, revealing when economic interests may be shaping democratic discourse.</p>
+              <p>We also funded projects centered on developing data infrastructure. For instance, a project led by Professors Marc Meredith and Matthew Levendusky will create a comprehensive and searchable dataset of digital ads that ran in the United States since 2018. Similarly, The Election Administration Media Dashboard project will build a comprehensive repository of media coverage on election administration, offering scholars, policymakers, and citizens critical data to understand how media narratives affect public confidence in elections.</p>
+
+              <h2>When AI Mediates Information</h2>
+              <p>Four projects included in this year's grant contend with the rise of LLMs as information gatekeepers. Assistant Professor and Center Advisor Danaé Metaxa's "AI Watchman" project provides an open-source monitoring system that tracks when and how AI systems refuse to answer questions on politically sensitive topics. Another proposed project from Knight PhD Fellow Elliot Pickens maps how users discuss political topics with chatbots, tracing conversations back to original news articles to document how information is fabricated, overgeneralized, or selectively emphasized during these interactions. A third project examines which factors enable users to bypass protections designed to prevent AI systems from generating harmful political content. Finally, researchers are investigating whether the conversational design of LLMs encourages confirmation bias.</p>
+
+              <h2>Persuasion and Common Ground</h2>
+              <p>Four projects focus on addressing conversational divides and analyzing the foundations of persuasive communication. One proposal will test 21 widely recommended interventions for improving dialogue across political divides. Another project led by Professor and Center Advisor Sandra González-Bailón examines how interpersonal discussions about controversial topics shape individuals' moral and political views. Two additional projects grapple with how LLMs are reshaping information access and public trust, including cross-national research in the United States and India.</p>
+
+              <h2>All Center-Funded Grants</h2>
+              <ul class="grant-list">
+                <li>
+                  <strong>Interpersonal Discussions and Tipping Points in Social Networks</strong>
+                  <p>Examines how interpersonal discussions shape individuals' moral and political views and how these influences spread through repeated interactions within social networks.</p>
+                  <span class="pis">Sandra González-Bailón, Diego Reinero, James Houghton</span>
+                </li>
+                <li>
+                  <strong>Integrative experiment to explore the effect of conversation interventions on dialogue across disagreement</strong>
+                  <p>A large-scale experiment testing 21 interventions designed to improve dialogue across lines of socio-political difference.</p>
+                  <span class="pis">James Houghton, Dean Knox, Yphtach Lelkes, Matthew Levendusky, Erik Santoro, Erin Walk, Duncan Watts</span>
+                </li>
+                <li>
+                  <strong>AI Watchman: Longitudinally Auditing Generative AI Content Moderation of Social Issues</strong>
+                  <p>Introduces an open-source interactive monitoring system to improve transparency on how LLMs moderate content, especially for socially and politically contested issues.</p>
+                  <span class="pis">Emma Lurie, Sorelle Friedler, Danaé Metaxa</span>
+                </li>
+                <li>
+                  <strong>Information Density and Narrative Persuasion in AI Chatbots: Cross-National Evidence from India and the United States</strong>
+                  <p>Tests how conversational styles of AI chatbots shape persuasion, trust, and information sharing across the United States and India.</p>
+                  <span class="pis">Neil Sehgal, Sharath Chandra Guntuku, Andy Tan</span>
+                </li>
+                <li>
+                  <strong>Documenting how National News Media Depict Crime in the US</strong>
+                  <p>Uses large language models to analyze national mainstream media coverage of crime, examining which crimes receive attention, how they are framed, and what solutions are promoted.</p>
+                  <span class="pis">Baird Howland, Billy Pierce, Amir Tohidi, Duncan Watts</span>
+                </li>
+                <li>
+                  <strong>How AI Transforms News: Measuring Bias and Distortion During LLM Conversations</strong>
+                  <p>Maps how users discuss political topics with chatbots, tracing conversations back to original news articles to document how information is fabricated, overgeneralized, or selectively emphasized.</p>
+                  <span class="pis">Elliot Pickens, Duncan Watts, Chris Callison-Burch</span>
+                </li>
+                <li>
+                  <strong>Narrative License in Science Communication in the Era of Large Language Models</strong>
+                  <p>Studies Narrative License — when scientific claims outrun the evidence — leveraging LLMs to detect it in published work, test its effects on readers, and devise interventions to limit its spread.</p>
+                  <span class="pis">Calvin Isch, Phil Tetlock, Duncan Watts</span>
+                </li>
+                <li>
+                  <strong>Archiving Digital Political Advertising Content</strong>
+                  <p>Builds a comprehensive, searchable dataset of digital political ads run in the United States since 2018 to support research on platform policies, campaign rhetoric, and issue priorities across election cycles.</p>
+                  <span class="pis">Andrew Arenge, Marc Meredith, Matthew Levendusky</span>
+                </li>
+                <li>
+                  <strong>Who Controls the Media? Measuring Media Orientation in Civic Coverage</strong>
+                  <p>Uses LLMs to track how news outlets frame coverage for national incumbents when reporting on civic matters.</p>
+                  <span class="pis">Ezgi Yilmaz, Zung-Ru Lin, Mina Rulis, Erik Wibbels</span>
+                </li>
+                <li>
+                  <strong>Adversarial Testing of Misalignment in Frontier LLMs When Asked to Create Anti-Democratic Campaign Materials</strong>
+                  <p>Conducts adversarial testing on 19 frontier models to examine how safety guardrails can be bypassed to generate anti-democratic campaign content.</p>
+                  <span class="pis">Gayoung Jeon, Neil Fasching, Deen Freelon</span>
+                </li>
+                <li>
+                  <strong>Unpacking How Context (Conversation History) Shifts the Framing of LLMs Outputs</strong>
+                  <p>Examines whether LLM-powered search systems generate responses that align with users' preexisting political beliefs, potentially reinforcing echo chambers.</p>
+                  <span class="pis">Vishwanath Emani Venkata, Sandra Gonzalez-Bailón</span>
+                </li>
+                <li>
+                  <strong>Election Administration Media Dashboard</strong>
+                  <p>Builds a comprehensive repository of media coverage on election administration, offering scholars, policymakers, and citizens critical data to understand how media narratives affect public confidence in elections.</p>
+                  <span class="pis">Liz Stark, Marc Meredith, Michael Morse</span>
+                </li>
+              </ul>
+
+              <!-- RFP Collapsible -->
+              <div class="rfp-toggle-wrap">
+                <button class="rfp-toggle" onclick="toggleRFP()" aria-expanded="false" aria-controls="rfp-content">
+                  <span class="rfp-toggle-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  </span>
+                  <span class="rfp-toggle-label">2025 Request for Proposals (Closed)</span>
+                  <span class="rfp-toggle-chevron">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                  </span>
+                </button>
+                <div class="rfp-content" id="rfp-content" hidden>
+                  <h2>Evaluation Criteria</h2>
+                  <p>Proposals were evaluated along three core criteria:</p>
+                  <ol>
+                    <li><strong>Focus on the information ecosystem</strong> — including traditional mass media, digital news, social media, search engines, or generative AI — and its effects on democracy.</li>
+                    <li><strong>Use of empirical research</strong>, using data and computational methods to advance the scientific understanding of the information ecosystem.</li>
+                    <li><strong>Prioritization of impact</strong>, such that the research has a direct and explicit relationship to improving the information ecosystem and supporting democracy.</li>
+                  </ol>
+                  <h2>Guidelines</h2>
+                  <ul>
+                    <li><strong>Eligibility:</strong> Faculty, postdoctoral students, PhD students, research staff, and affiliated scholars from Center-affiliated schools. Non-faculty applicants must identify a faculty collaborator or mentor.</li>
+                    <li><strong>Grant Amount:</strong> Typical range of $7,500–$15,000. Larger amounts may be considered for multi-researcher projects.</li>
+                    <li><strong>Grant Length:</strong> Typically 12–15 months, starting January 1, 2026.</li>
+                    <li><strong>Limitations:</strong> Funding will typically not cover researcher salaries, but may support data purchasing, computational resources, research assistants, and dissemination activities.</li>
+                    <li><strong>Recognition:</strong> Selected projects must provide recognition of the Penn MEDIATED Research Grant program on all publications and conference presentations.</li>
+                  </ul>
+                  <h2>Important Dates</h2>
+                  <table class="rfp-dates">
+                    <tr><td>Applications Open</td><td>September 15, 2025</td></tr>
+                    <tr><td>Applications Close</td><td>October 31, 2025</td></tr>
+                    <tr><td>Award Announcement</td><td>December 8, 2025</td></tr>
+                    <tr><td>Start of Award Delivery</td><td>January 1, 2026</td></tr>
+                    <tr><td>Grant Execution Range</td><td>January 1, 2026 – April 1, 2027</td></tr>
+                  </table>
+                  <h2>Questions</h2>
+                  <p>Please reach out to Alex Engler (<a href="mailto:acengler@upenn.edu">acengler@upenn.edu</a>), Executive Director of the Center on Media, Technology and Democracy.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </article>
+
+
+        <!-- ═══════════════════════════════════════════════════
+             POST 5: Center Introduction
+        ════════════════════════════════════════════════════ -->
+        <article class="post-item" id="post-center-intro" data-date="2025-12" data-category="Announcements">
+          <div class="post-card">
+            <div class="post-meta">
+              <span class="post-date">December 2025</span>
+            </div>
+            <h2>An Introduction to the Center from Co-Directors Duncan Watts and Christopher Yoo</h2>
+            <p class="post-excerpt">Co-Directors Duncan J. Watts and Christopher S. Yoo share their vision for the Penn Center on Media, Technology, and Democracy — why they built it, what they are learning, and where they hope it can go. Originally shared in the Center newsletter.</p>
+            <div class="post-item-footer">
+              <span class="post-author"><strong>Duncan J. Watts &amp; Christopher S. Yoo</strong> · Co-Directors</span>
+              <button class="expand-btn" onclick="openModal('center-intro')">
+                <span class="expand-label">Read more</span> <span class="expand-icon">→</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="post-full-content" id="content-center-intro">
+            <div class="post-full-content-inner">
+
+              <div class="newsletter-note">
+                Originally shared in the Penn MEDIATED newsletter, December 2025.
+              </div>
+
+              <p>Dear colleagues,</p>
+
+              <p>As faculty co-directors of the new Penn Center on Media, Technology, and Democracy, we wanted to take a moment to tell you more about the Center—why we built it, what we are learning, and where we hope it can go.</p>
+
+              <p>A line from a book that one of us wrote in 2011, <em>Everything Is Obvious</em>, anticipated what we are trying to accomplish:</p>
+
+              <blockquote>Just as the invention of the telescope revolutionized the study of the heavens, so too by rendering the unmeasurable measurable, the technological revolution in mobile, Web, and Internet communications has the potential to revolutionize our understanding of ourselves and how we interact.</blockquote>
+
+              <p>In the almost fifteen years since, a number of people have (appropriately) questioned the telescope metaphor, but the reality is that we have made enormous progress in measuring—and to some degree understanding—social behavior at scale. The challenge now is not whether we can measure things, but whether we are measuring the right things.</p>
+
+              <p>Take one question that many people worry about: Has social media driven us into partisan echo chambers? The short answer: probably not in the way people think.</p>
+
+              <p>When we actually look at the data, we find that television, not social media, remains the dominant source of news for Americans. And it is there—not on Facebook or X—that we see the strongest evidence of ideological segregation. From 1980 to 2022, broadcast news viewership fell by over half, while cable news—especially partisan outlets—grew steadily. Between 2016 and 2019, 17% of Americans lived in TV echo chambers, compared to just 4% of those consuming news primarily online. There is also a clear asymmetry: Fox News has become increasingly partisan over time, while MSNBC and CNN fluctuate but remain less extreme overall.</p>
+
+              <p>Using large language models as analytical tools, we can now measure partisanship at the level of individual sentences in TV transcripts and news articles. This allows us to map not just what stories are told, but how they're told. In one study, we found that political headlines are systematically less polarized than the articles they introduce, suggesting an editorial layer that subtly moderates tone before publication.</p>
+
+              <p>Our data increasingly show that misinformation is not the core problem. More often, the issue lies in framing—how information is selected, contextualized, and repeated. Experiments show that biased framing of true facts can be just as persuasive as outright falsehoods.</p>
+
+              <h2>Looking Ahead</h2>
+
+              <p>Understanding the information ecosystem—and improving it—requires new infrastructure, methods, and collaborations. The Penn Center on Media, Technology, and Democracy will focus on these aspects:</p>
+
+              <ul>
+                <li><strong>Taking a broad view:</strong> We want to study how people actually encounter information — including social media, the internet, TV, podcasts, and radio. We are already building datasets to track these domains.</li>
+                <li><strong>Data Infrastructure:</strong> We need longitudinal, shared datasets that can support systematic analysis. With support from the Knight Foundation, we are expanding access to PennMAP data for large-scale data sharing across research teams.</li>
+                <li><strong>Quantitative Methods:</strong> Machine learning, network analysis, and computational linguistics are essential tools for making sense of the information ecosystem at scale. Through the Information &amp; Democracy Research Grants, we are investing in this capacity across Penn.</li>
+                <li><strong>Interdisciplinary Collaboration:</strong> Understanding information systems requires input from communications, engineering, law, political science, business, and social policy. Our research seminar series and cohort of Knight PhDs and Postdocs bring together this community.</li>
+                <li><strong>Public impact:</strong> Research matters only if it informs the public sphere. We are committed to convening an annual conference and other initiatives to share what we learn with policymakers and civil society.</li>
+              </ul>
+
+              <p>We are just getting started, but we believe that careful measurement and open collaboration can help us move beyond speculation—and toward real understanding of how information shapes democracy.</p>
+
+              <p>Duncan J. Watts and Christopher S. Yoo<br>
+              <em>Co-Directors, Penn Center on Media, Technology, and Democracy</em></p>
+
+            </div>
+          </div>
+        </article>
+
+
+        <!-- ═══════════════════════════════════════════════════
+             POST 6: Media Fragmentation Event
+        ════════════════════════════════════════════════════ -->
+        <article class="post-item" id="post-media-fragmentation" data-date="2025-10" data-category="Events">
+          <div class="post-card">
+            <div class="post-meta">
+              <span class="post-date">October 2025</span>
+            </div>
+            <h2>Exploring the Democratic Repercussions of Media Fragmentation</h2>
+            <p class="post-excerpt">On October 21st, 2025, the Center hosted its first public event on the Democratic Repercussions on Media Fragmentation.</p>
+            <div class="post-item-footer">
+              <button class="expand-btn" onclick="openModal('media-fragmentation')">
+                <span class="expand-label">Read more</span> <span class="expand-icon">→</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="post-full-content" id="content-media-fragmentation">
+            <div class="post-full-content-inner">
+
+              <div class="post-video-wrap" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin-bottom:1.5rem;">
+                <iframe src="https://www.youtube.com/embed/g3YeXATD_ck?start=1" title="Exploring the Democratic Repercussions of Media Fragmentation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;"></iframe>
+              </div>
+
+              <p>The media landscape continues to experience fragmentation, with an ever-expanding number of political influencers, podcasters, online platforms, and generative AI systems, all while traditional mass media has become more ideologically aligned. This event brought together leading  experts—Penn Professors Duncan Watts and Sandra González-Bailón are joined by media executive S. Mitra Kalita—to explore how media fragmentation relates to American democratic decline.</p>
+
+              <p>Read more in the coverage from the <a href="https://www.thedp.com/article/2025/10/penn-annenberg-school-media-fragmentation-democracy" target="_blank"><em>Daily Pennsylvanian</em></a> or watch the event recording above.</p>
+
+            </div>
+          </div>
+        </article>
+
+
+        <!-- ═══════════════════════════════════════════════════
+             POST 7: Welcoming Our New Staff
+        ════════════════════════════════════════════════════ -->
+        <article class="post-item" id="post-new-staff" data-date="2025-09" data-category="People">
+          <div class="post-card">
+            <div class="post-meta">
+              <span class="post-date">September 2025</span>
+            </div>
+            <h2>Welcoming Our New Staff</h2>
+            <p class="post-excerpt">Penn MEDIATED is thrilled to introduce its core staff: Executive Director Alex Engler, Engagement and Policy Manager Alexis Frisbie, and Communications and Research Manager Prithvi Iyer</p>
+            <div class="post-item-footer">
+              <button class="expand-btn" onclick="openModal('new-staff')">
+                <span class="expand-label">Read more</span> <span class="expand-icon">→</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="post-full-content" id="content-new-staff">
+            <div class="post-full-content-inner">
+
+              <img src="https://penn-mediated.github.io/MEDIATED-blog/images/staff.png" alt="Penn MEDIATED Staff" class="post-feature-img" />
+
+              <h2>Alex Engler, Executive Director</h2>
+
+              <p>Alex was most recently the Director for Democracy and Technology at the National Security Council, and before that the Assistant Director of AI Policy at the Office of Science and Technology Policy. Preceding the White House, Alex was a fellow at the Brookings Institution and the Center for European Policy Studies, where he worked on AI policy and online platform governance. Previously, Alex spent ten years as a data scientist in policy research organizations and governments (the Urban Institute, Congress, DC local govt) and as teaching faculty in that space (at the University of Chicago and Georgetown University).</p>
+
+              <h2>Alexis Frisbie, Engagement and Policy Manager</h2>
+
+              <p>Alexis has extensive expertise in technology policy, especially combating foreign information manipulation that threatens democratic processes. She was previously a Foreign Affairs Officer and Senior Technology Advisor at the State Department for 6ish years, where she led on international technology challenges, private sector engagement, and coordination on emerging technology threats. Before State, Alexis worked in a variety of roles in security, democracy, and human rights issues. Alexis holds a B.A. in International Affairs from Lewis & Clark College and an M.A. in International Security from the University of Denver.</p>
+
+              <h2>Prithvi Iyer, Communications and Research Manager</h2>
+
+              <p>Prithvi Iyer was most recently the Program Manager at Tech Policy Press, a non-profit media venture at the intersection of technology and democracy. In this role, he managed the organization's fellowship program, helped execute various community engagement initiatives and wrote over 50 pieces summarizing emerging technology policy research for general audiences. He has also served as Research Assistant at the Observer Research Foundation, where he published extensively on topics including mental health implications of political conflict, the role of behavioural science in shaping foreign policy, and technology's role in exacerbating inter-group conflict in South Asia. At ORF, Prithvi helped launch an annual nationwide foreign policy opinion poll project and organize the Raisina Dialogue, India's flagship geopolitics conference. Prithvi holds an MA in Global Affairs from the University of Notre Dame and a BA in Psychology from Ashoka University in India.</p>
+
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ================= MODAL ================= -->
+  <div id="post-modal" class="modal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-top-bar">
+          <button class="modal-copy-btn" id="modal-copy-btn" onclick="copyPostLink()" title="Copy link to this post">
+            <span id="modal-copy-label">Copy link</span>
+          </button>
+          <button class="modal-close" onclick="closeModal()" aria-label="Close">&#10005;</button>
+        </div>
+        <div id="modal-meta"></div>
+        <h2 id="modal-title"></h2>
+      </div>
+      <div id="modal-body" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.post-item').forEach(function(article) {
+        var btn = article.querySelector('.expand-btn');
+        if (!btn) return;
+        var match = (btn.getAttribute('onclick') || '').match(/openModal\('(.+?)'\)/);
+        if (!match) return;
+        var id = match[1];
+        var card = article.querySelector('.post-card');
+        card.addEventListener('click', function(e) {
+          if (e.target.closest('.expand-btn')) return;
+          openModal(id);
+        });
+      });
+
+      var hash = window.location.hash.replace('#', '');
+      if (hash && document.getElementById('content-' + hash)) {
+        openModal(hash);
+      }
+
+      initFeedControls();
+    });
+
+    /* ── Filter (by category) + sort (by date) controls ── */
+    function initFeedControls() {
+      var list = document.getElementById('post-list');
+      var items = Array.prototype.slice.call(list.querySelectorAll('.post-item'));
+      var filterButtons = Array.prototype.slice.call(document.querySelectorAll('.filter-pill'));
+      var sortSelect = document.getElementById('sort-select');
+      var countEl = document.getElementById('feed-count');
+      var activeFilter = 'all';
+
+      // Preserve original document order as a stable tiebreaker for posts
+      // sharing the same month/year.
+      items.forEach(function(item, i) { item.dataset.order = i; });
+
+      function sortItems(mode) {
+        var sorted = items.slice().sort(function(a, b) {
+          var da = a.dataset.date, db = b.dataset.date;
+          if (da !== db) {
+            return mode === 'oldest' ? da.localeCompare(db) : db.localeCompare(da);
+          }
+          // same month — keep original relative order either way
+          return (+a.dataset.order) - (+b.dataset.order);
+        });
+        sorted.forEach(function(item) { list.appendChild(item); });
+      }
+
+      function applyFilter() {
+        var visible = 0;
+        items.forEach(function(item) {
+          var show = activeFilter === 'all' || item.dataset.category === activeFilter;
+          item.hidden = !show;
+          if (show) visible++;
+        });
+        if (countEl) countEl.textContent = visible + (visible === 1 ? ' post' : ' posts');
+      }
+
+      filterButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          filterButtons.forEach(function(b) { b.classList.remove('is-active'); });
+          btn.classList.add('is-active');
+          activeFilter = btn.dataset.filter;
+          applyFilter();
+        });
+      });
+
+      sortSelect.addEventListener('change', function() {
+        sortItems(sortSelect.value);
+      });
+
+      sortItems(sortSelect.value);
+      applyFilter();
+    }
+
+    var currentModalId = null;
+
+    function openModal(id) {
+      currentModalId = id;
+      var src = document.getElementById('content-' + id);
+      var article = src.closest('.post-item');
+      document.getElementById('modal-title').textContent = article.querySelector('h2').textContent;
+      document.getElementById('modal-meta').innerHTML = article.querySelector('.post-meta').outerHTML;
+      document.getElementById('modal-body').innerHTML = src.querySelector('.post-full-content-inner').innerHTML;
+      var modal = document.getElementById('post-modal');
+      modal.hidden = false;
+      modal.scrollTop = 0;
+      history.replaceState(null, '', '#' + id);
+    }
+
+    function closeModal() {
+      document.getElementById('post-modal').hidden = true;
+      history.replaceState(null, '', window.location.pathname);
+    }
+
+    function copyPostLink() {
+      var label = document.getElementById('modal-copy-label');
+      var url = window.location.href.split('#')[0] + (currentModalId ? '#' + currentModalId : '');
+
+      function flash(msg) {
+        label.textContent = msg;
+        setTimeout(function() { label.textContent = 'Copy link'; }, 2000);
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+        navigator.clipboard.writeText(url).then(
+          function() { flash('Copied!'); },
+          function() { flash('Copy failed'); }
+        );
+      } else {
+        flash('Copy failed');
+      }
+    }
+
+    document.getElementById('post-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    function toggleRFP() {
+      var btn = document.querySelector('.rfp-toggle');
+      var content = document.getElementById('rfp-content');
+      var isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!isExpanded));
+      content.hidden = isExpanded;
+    }
+  </script>
+
+</body>
+</html>
