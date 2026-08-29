@@ -146,7 +146,13 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
   padding-block: var(--space-400) var(--space-1000);
 }
 
-.feed__inner { max-width: var(--max-w); }
+/* Narrower reading column than the site's full 1440px container — the
+   single-column feed (sidebar removed) has no second column to balance
+   the row, so it needs its own tighter measure or long titles/excerpts
+   stretch across the full width and leave a lopsided void to the right
+   at wide viewports. 860px keeps the 150px date rail + the 720px excerpt
+   cap (post-excerpt max-width) reading as one intentional block. */
+.feed__inner { max-width: 860px; }
 
 .feed__head {
   display: flex;
