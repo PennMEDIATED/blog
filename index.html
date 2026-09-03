@@ -813,7 +813,6 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
 <article class="post-item" id="post-amy-gutmann" data-date="2026-04" data-category="People">
           <div class="post-card">
             <div class="post-meta">
-              <span class="featured-badge">Featured</span>
               <span class="post-date">April 2026</span>
             </div>
             <h2>President Emerita Amy Gutmann Joins Penn MEDIATED as Faculty Advisor</h2>
@@ -1532,8 +1531,22 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
       // sharing the same month/year.
       items.forEach(function(item, i) { item.dataset.order = i; });
 
+      // "Featured" and "pinned to the top" are the same thing, and the badge
+      // in the markup is what decides it — there is no second flag to keep in
+      // sync. Add <span class="featured-badge">Featured</span> to a post's
+      // .post-meta and it pins; remove it and the post falls back into date
+      // order. That makes the rule impossible to half-apply, which is how the
+      // Gutmann post ended up badged but sitting mid-list.
+      function isFeatured(item) {
+        return !!item.querySelector('.featured-badge');
+      }
+
       function sortItems(mode) {
         var sorted = items.slice().sort(function(a, b) {
+          // Pinned posts lead in both sort modes — that is what pinning means.
+          var fa = isFeatured(a), fb = isFeatured(b);
+          if (fa !== fb) return fa ? -1 : 1;
+          // Within the pinned group, and within the rest, the chosen sort applies.
           var da = a.dataset.date, db = b.dataset.date;
           if (da !== db) {
             return mode === 'oldest' ? da.localeCompare(db) : db.localeCompare(da);

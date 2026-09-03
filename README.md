@@ -12,7 +12,7 @@ All tokens are ported from the `/home` style guide's `:root` block, so this page
 |---|---|---|
 | `--c-dark` | `#0d0d0c` | Primary text, dark surfaces (modal header background) |
 | `--c-accent` | `#5533ee` | Brand purple — hero title, pull-quote border, stat numbers |
-| `--c-red` | `#f03d1f` | Brand red/orange — active filter pill, "Featured" accents, bio labels |
+| `--c-red` | `#f03d1f` | Brand red/orange — eyebrow and metadata labels, bio labels |
 | `--c-gray` | `#888680` | Secondary/quiet text (filter labels, sort label) |
 | `--c-gray-dark` | `#54534f` | Reserved for muted UI chrome (not used for reading copy — see note below) |
 | `--c-light-bg` | `#f8f7f4` | Pull-quote background, stat boxes, RFP toggle background |
@@ -74,9 +74,10 @@ This page's CSS lives in an inline `<style>` block rather than a `styles.css`, s
 
 ## Components
 
-- **Hero** — a plain centered header (bold purple serif title + one-line serif subtitle) rather than the source style guide's dark gradient splash hero, per request.
+- **Hero** — the shared page-hero treatment: left-aligned EB Garamond title at `--fs-h1`/600 in `--c-accent`, DM Sans lede at `--fs-lede`/300, `--space-600` bottom padding. Matches `events`, `team-leadership`, `data`, `grants-rfp` and `our-team-job-openings`; it used to be centred with a serif lede, which made this the one page whose top read as a different site.
 - **Filter + sort bar** — pill buttons to filter by category (`All / Announcements / Research / People / Events / Grants`; categories are an editorial addition — the source content has no built-in tagging) and a "Sort by" dropdown (`Most Recent` / `Oldest First`) that reorders posts by their actual date, all handled client-side in the inline `<script>`.
 - **Post cards** — one per row; clicking anywhere on a card (or its "Read more" button) opens the full article.
+- **Featured posts** — a post carrying `<span class="featured-badge">Featured</span>` in its `.post-meta` is pinned to the top of the list, in both sort modes. **The badge is the only switch.** `sortItems()` reads it straight out of the DOM (`item.querySelector('.featured-badge')`), so there is no second flag to keep in sync: add the badge and the post pins, remove it and the post falls back into date order. Featured and pinned cannot disagree, which is how the Gutmann post previously ended up badged but sitting mid-list. Pin more than one and they lead as a group, ordered among themselves by the chosen sort. **No post is currently featured.**
 - **Post modal** — the expanded article view. Reuses rich content blocks straight from the original blog content: pull-quotes, bio sections (photo + credentials), stat rows, a grant list, an embedded video/chart iframe, and a collapsible "Request for Proposals" accordion.
 ## Embedding this page
 
