@@ -107,7 +107,7 @@ body {
 }
 ul, ol { list-style: none; }
 a { color: inherit; text-decoration: none; }
-img { max-width: 100%; height: auto; display: block; }
+img, video { max-width: 100%; height: auto; display: block; }
 button { font: inherit; cursor: pointer; background: none; border: none; }
 
 .sr-only {
@@ -519,10 +519,12 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
 
 .modal-body a { color: var(--c-red-dark); font-weight: 500; transition: opacity 0.15s; }
 .modal-body a:hover { opacity: 0.7; }
-.modal-body img { max-width: 100%; height: auto; border-radius: var(--space-100); }
+.modal-body img,
+.modal-body video { max-width: 100%; height: auto; border-radius: var(--space-100); }
 .modal-body em { font-style: italic; }
 
-.modal-body .post-feature-img {
+.modal-body .post-feature-img,
+.modal-body video.post-feature-img {
   width: 100%;
   border-radius: var(--space-150);
   margin-bottom: var(--space-400);
@@ -854,7 +856,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
               <div class="bio-section">
                 <div class="bio-label">About the Faculty Advisor</div>
                 <div class="bio-inner">
-                  <img src="https://penn-mediated.github.io/MEDIATED-blog/images/gutmann.jpg" width="1828" height="2560" alt="Amy Gutmann" class="bio-photo" style="object-fit:cover;" />
+                  <img src="assets/gutmann.webp" width="224" height="314" alt="Amy Gutmann" class="bio-photo" style="object-fit:cover;" />
                   <div>
                     <div class="bio-name">Amy Gutmann</div>
                     <div class="bio-title">
@@ -1024,8 +1026,8 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
 
               <!-- Partnership logos -->
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 1.75rem;">
-                <img src="https://penn-mediated.github.io/MEDIATED-blog/images/mediatedlogo.png" width="1246" height="454" alt="Penn MEDIATED" style="width:100%;height:auto;display:block;border-radius:8px;" />
-                <img src="https://penn-mediated.github.io/MEDIATED-blog/images/dfrlab.jpg" width="1246" height="454" alt="Atlantic Council Digital Forensics Research Lab" style="width:100%;height:auto;display:block;border-radius:8px;" />
+                <img src="assets/mediatedlogo.webp" width="1246" height="454" alt="Penn MEDIATED" style="width:100%;height:auto;display:block;border-radius:8px;" />
+                <img src="assets/dfrlab.webp" width="1246" height="454" alt="Atlantic Council Digital Forensics Research Lab" style="width:100%;height:auto;display:block;border-radius:8px;" />
               </div>
 
               <p>In 2026, the most influential indices of democratic health—the <a href="https://www.v-dem.net/documents/75/V-Dem_Institute_Democracy_Report_2026_lowres.pdf" target="_blank" rel="noopener">Varieties of Democracy Index</a> and <a href="https://freedomhouse.org/sites/default/files/2026-03/FIW2026_final_digital%20%281%29.pdf" target="_blank" rel="noopener">the Freedom in the World Report</a>—found continued declines in democracy globally. 74% of people worldwide now live in autocracies, at the expense of electoral and liberal democracies, including the U.S., which <a href="https://ourworldindata.org/grapher/political-regime-ert-within-regimes" target="_blank" rel="noopener">slipped from a stable to an eroding democracy</a>.</p>
@@ -1043,7 +1045,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
               <p>Penn's Professors <strong><a href="https://infodem.upenn.edu/faculty/" target="_blank" rel="noopener">Danaé Metaxa</a></strong>, <strong><a href="https://live-sas-www-polisci.pantheon.sas.upenn.edu/people/jane-esberg" target="_blank" rel="noopener">Jane Esberg</a></strong>, and <strong><a href="https://infodem.upenn.edu/faculty/" target="_blank" rel="noopener">Dolores Albarracín</a></strong> will contribute to the training, directly informing practitioners on the front lines of information integrity and democratic resilience. Professor Metaxa focuses on the bias and representation in sociotechnical systems and has conducted research and development of longitudinal generative AI auditing to track how models discuss (or decline to discuss) social issues. Professor Esberg's scholarship delves into authoritarian repression and censorship, particularly in Latin America and Spain, exploring the purpose of authoritarian censorship of non-political content and opponent repression in appealing to their supporters. Professor Albarracín studies the impact of communication and persuasion on human behavior and the formation of beliefs, attitudes, and goals, particularly those that are socially beneficial. Drawing from their empirical research and expertise, each will teach a module that offers attendees a deeper understanding of the information ecosystem and its manipulation by autocratic governments.</p>
 
               <div class="quote-with-image" style="display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin:24px 0;">
-                <img src="https://penn-mediated.github.io/MEDIATED-blog/images/sherlocks.png" width="200" height="200" alt="Digital Sherlocks Program" style="width:220px;max-width:100%;height:auto;flex-shrink:0;border-radius:4px;" />
+                <img src="assets/sherlocks.webp" width="200" height="200" alt="Digital Sherlocks Program" style="width:220px;max-width:100%;height:auto;flex-shrink:0;border-radius:4px;" />
                 <div class="pull-quote" style="flex:1;min-width:260px;margin:0;">
                   <p>"Since its inception in 2019, the Digital Sherlocks Program has grown to support a global community of more than 3,500 alumni from over 140 countries. These Digital Sherlocks, committed to monitoring and protecting information environments in their respective regions, are the heart of our movement."</p>
                 </div>
@@ -1128,7 +1130,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
           <div class="post-full-content" id="content-research-compendium">
             <div class="post-full-content-inner">
 
-              <a href="https://infodem.upenn.edu/research-compendium/" target="_blank" rel="noopener"><img src="https://penn-mediated.github.io/MEDIATED-blog/images/dashboard.gif" width="1278" height="622" alt="Research Compendium preview" class="post-feature-img" /></a>
+              <a href="https://infodem.upenn.edu/research-compendium/" target="_blank" rel="noopener"><video src="assets/dashboard.mp4" poster="assets/dashboard-poster.webp" width="1278" height="622" autoplay muted loop playsinline preload="metadata" aria-label="Research Compendium preview" class="post-feature-img"></video></a>
 
               <p>We're excited to formally launch our Research Compendium—an ongoing effort to comprehensively curate Penn's research on the information ecosystem and its impact on democracy. With categorical tags and search, we want to make it easier for you to find essential research about polarization, misinformation, persuasion, social media, LLMs, and more. For each paper, we provide an overview of the research, its key findings, and a note on why it matters beyond academia. <a href="https://penn-mediated.github.io/Research-Compendium/" target="_blank" rel="noopener">Check it out here!</a></p>
 
@@ -1157,7 +1159,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
           <div class="post-full-content" id="content-affiliated-faculty">
             <div class="post-full-content-inner">
 
-              <a href="https://infodem.upenn.edu/faculty/" target="_blank" rel="noopener"><img src="https://penn-mediated.github.io/MEDIATED-blog/images/faculty.gif" width="1526" height="696" alt="Affiliated Faculty" class="post-feature-img" /></a>
+              <a href="https://infodem.upenn.edu/faculty/" target="_blank" rel="noopener"><video src="assets/faculty.mp4" poster="assets/faculty-poster.webp" width="1328" height="606" autoplay muted loop playsinline preload="metadata" aria-label="Affiliated Faculty" class="post-feature-img"></video></a>
 
               <p>We're proud to introduce Penn MEDIATED's affiliated faculty members—distinguished by their rigorous empirical research advancing our collective understanding of the information ecosystem and its impact on democracy. This required real consideration of what exactly we do at Penn MEDIATED—what does it mean to study the information ecosystem? Our faculty are distinguished by their rigorous empirical and computational work, but also by a focus on those mediating actors that make up the information landscape: especially individuals from peers to elites; institutions of media and government; and technologies from podcast platforms to large language models.</p>
 
@@ -1450,7 +1452,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
           <div class="post-full-content" id="content-new-staff">
             <div class="post-full-content-inner">
 
-              <img src="https://penn-mediated.github.io/MEDIATED-blog/images/staff.png" width="428" height="214" alt="Penn MEDIATED Staff" class="post-feature-img" />
+              <img src="assets/staff.webp" width="428" height="214" alt="Penn MEDIATED Staff" class="post-feature-img" />
 
               <h2>Alex Engler, Executive Director</h2>
 
@@ -1617,6 +1619,15 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
       var isExpanded = btn.getAttribute('aria-expanded') === 'true';
       btn.setAttribute('aria-expanded', String(!isExpanded));
       content.hidden = isExpanded;
+    }
+
+    // The two animated post images are muted, looping <video> rather than
+    // GIF. CSS can't stop autoplay, so honour prefers-reduced-motion here:
+    // pause each one and rewind to its poster frame.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('video[autoplay]').forEach(function (v) {
+        v.autoplay = false; v.pause(); v.currentTime = 0; v.removeAttribute('loop');
+      });
     }
   </script>
 

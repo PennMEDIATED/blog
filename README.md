@@ -144,9 +144,31 @@ Never leave the marker to the browser — style `<select>` with `appearance: non
 ## Source content
 
 - Live page: `https://infodem.upenn.edu/blog/`
-- Underlying post content: `https://penn-mediated.github.io/MEDIATED-blog/`
+- Underlying post content: `https://penn-mediated.github.io/MEDIATED-blog/` (the current live GitHub Pages site, in the older `penn-mediated` org)
 - Style guide: `https://github.com/PennMEDIATED/home`
+
+## Images and video
+
+Post artwork used to be loaded straight from the source blog's Pages site. It now lives in `assets/` in this repo, so the page carries no dependency on that host.
+
+Every `<img>` and `<video>` carries explicit `width`/`height` attributes. They don't set the display size — CSS does — they give the browser the aspect ratio before the file arrives so it can reserve a correctly shaped box instead of shoving the post down as each image lands. **Put the real pixel dimensions on any tag you add.**
+
+Two conventions keep the repo light:
+
+**Stills ship as WebP, sized to what they actually display.** The modal is 760px wide with 48px padding, so a full-width post image renders at ~664 CSS px — 1328px wide is plenty for a sharp 2× retina image. The bio portrait renders in a 112px circle and needs only 224px; it was a 1828×2560 JPEG at 513KB, and is now 9KB.
+
+**Animations ship as muted MP4, never GIF.** `dashboard.gif` was 11.3MB for 290 frames; the same recording as H.264 is 1.2MB and looks identical. These use:
+
+```html
+<video src="assets/name.mp4" poster="assets/name-poster.webp" width="…" height="…"
+       autoplay muted loop playsinline preload="metadata" aria-label="…"
+       class="post-feature-img"></video>
+```
+
+`muted` is what allows autoplay; `playsinline` stops iOS opening it fullscreen; `aria-label` replaces `alt`. The `poster` is the first frame, so the slot is never empty. CSS can't stop autoplay, so the script block at the end of `index.html` pauses these and rewinds them to the poster when the visitor has asked their OS to reduce motion — **keep that if you add another video.**
+
+Together these took `assets/` from 15MB to 2.7MB with no visible change. `home` follows the same two conventions.
 
 ## Usage
 
-Drop `index.html` into any static host or CMS embed — it's fully self-contained (inline CSS/JS, Google Fonts CDN, remote image URLs for post artwork/logos already used by the source blog).
+Drop `index.html` into any static host or CMS embed — it's self-contained apart from `assets/` (inline CSS/JS, Google Fonts CDN, and local post artwork). Copy `assets/` alongside it.
