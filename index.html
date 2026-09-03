@@ -336,8 +336,12 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
   max-width: 720px;
 }
 
-.post-excerpt a { color: var(--c-dark); font-weight: 500; border-bottom: 1px solid rgba(13, 13, 12, 0.35); transition: color 0.15s, border-color 0.15s; }
-.post-excerpt a:hover { color: var(--c-red); border-color: var(--c-red); }
+/* In-text links (Hyperlinks category 1) on a white/light ground:
+   --c-red, no underline, fading to opacity 0.7 on hover — the same
+   fade the coloured-ground rule uses. Colour is the affordance here;
+   the underline belongs to category 2's independent links. */
+.post-excerpt a { color: var(--c-red); font-weight: 500; transition: opacity 0.15s; }
+.post-excerpt a:hover { opacity: 0.7; }
 
 .post-item-footer {
   grid-column: 2;
@@ -508,8 +512,8 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
   margin: var(--space-400) 0;
 }
 
-.modal-body a { color: var(--c-dark); font-weight: 500; border-bottom: 1px solid rgba(13, 13, 12, 0.35); transition: color 0.15s, border-color 0.15s; }
-.modal-body a:hover { color: var(--c-red); border-color: var(--c-red); }
+.modal-body a { color: var(--c-red); font-weight: 500; transition: opacity 0.15s; }
+.modal-body a:hover { opacity: 0.7; }
 .modal-body img { max-width: 100%; height: auto; border-radius: var(--space-100); }
 .modal-body em { font-style: italic; }
 
