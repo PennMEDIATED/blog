@@ -133,31 +133,36 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
   background: var(--c-white);
 }
 
+/* Page hero — the shared treatment used by every other page repo
+   (events' .events-hero, team-leadership's .team-hero, data's and
+   grants-rfp's .intro, our-team-job-openings' .openings). It used to be
+   centred with a serif lede, which made this the one page whose top
+   read as a different site. Left-aligned, --space-600 bottom padding,
+   and the lede in sans, like all of them. */
 .feed-hero__inner {
   max-width: var(--max-w);
   margin-inline: auto;
   padding-inline: var(--pad-x);
-  padding-block: var(--space-800) var(--space-300);
-  text-align: center;
+  padding-block: var(--space-800) var(--space-600);
 }
 
 .feed-hero__title {
   font-family: var(--f-serif);
-  font-weight: 700;
+  font-weight: 600;
   font-size: var(--fs-h1);
   line-height: var(--lh-display);
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   color: var(--c-accent);
-  margin-bottom: var(--space-300);
+  margin-bottom: var(--space-250);
 }
 
+/* Serif is for headings; running prose is sans (see README -> Typography). */
 .feed-hero__subtitle {
-  font-family: var(--f-serif);
+  font-family: var(--f-sans);
   font-size: var(--fs-lede);
-  font-weight: 400;
+  font-weight: 300;
   line-height: var(--lh-lede);
   color: var(--c-dark);
-  margin-inline: auto;
 }
 
 /* =============================================================================
