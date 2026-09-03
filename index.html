@@ -43,13 +43,18 @@
   --c-light-bg:   #f8f7f4;
   --c-accent:     #5533ee;
   --c-red:        #f03d1f;
+  /* Deeper red-orange — the gradient's closing stop, promoted to a token
+     of its own. Link text on a white/light ground uses this: --c-red
+     only reaches ~3.9:1 against white, this clears 4.5:1. --c-red stays
+     the brand accent for fills, borders, icons, tags and labels. */
+  --c-red-dark:   #df3611;
   --c-gray:       #888680;
   --c-gray-dark:  #54534f;
   --c-muted:      #c8c6c0;
   --c-white:      #ffffff;
   --c-pale-orange: #fce4dc;         /* --c-red tinted ~12% onto white — date tags, callout boxes (matches /events) */
 
-  --c-gradient: linear-gradient(150deg, #5533ee 0%, #df3611 81%);
+  --c-gradient: linear-gradient(150deg, #5533ee 0%, var(--c-red-dark) 81%);
 
   /* ── Figma typography tokens (from /home) ── */
   --f-serif: 'EB Garamond', Georgia, 'Times New Roman', serif;
@@ -272,7 +277,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
 
 .post-list .post-item:first-child .post-card { padding-top: var(--space-300); }
 
-.post-card:hover h2 { color: var(--c-red); }
+.post-card:hover h2 { color: var(--c-red-dark); }
 .post-card:hover .expand-btn .expand-icon { transform: translateX(4px); }
 
 .post-meta {
@@ -340,7 +345,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
    --c-red, no underline, fading to opacity 0.7 on hover — the same
    fade the coloured-ground rule uses. Colour is the affordance here;
    the underline belongs to category 2's independent links. */
-.post-excerpt a { color: var(--c-red); font-weight: 500; transition: opacity 0.15s; }
+.post-excerpt a { color: var(--c-red-dark); font-weight: 500; transition: opacity 0.15s; }
 .post-excerpt a:hover { opacity: 0.7; }
 
 .post-item-footer {
@@ -512,7 +517,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
   margin: var(--space-400) 0;
 }
 
-.modal-body a { color: var(--c-red); font-weight: 500; transition: opacity 0.15s; }
+.modal-body a { color: var(--c-red-dark); font-weight: 500; transition: opacity 0.15s; }
 .modal-body a:hover { opacity: 0.7; }
 .modal-body img { max-width: 100%; height: auto; border-radius: var(--space-100); }
 .modal-body em { font-style: italic; }
