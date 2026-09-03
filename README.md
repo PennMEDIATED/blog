@@ -44,7 +44,18 @@ An 8px base scale, identical to `/home`'s Atlassian-style tokens: `--space-025` 
 
 Sitewide convention. The `--fs-*`/`--lh-*` block at the top of the stylesheet is canonical and identical in every page repo.
 
-**Two families, no third.** `--f-serif` (EB Garamond) for page and section titles and pull-quote copy; `--f-sans` (DM Sans) for everything else. There is no monospace face — uppercase micro-labels are DM Sans, not Courier.
+**Two families, no third — and the split is by what the text *is*, not by heading level.**
+
+- **`--f-serif` (EB Garamond)** — page titles, and **titles of works or names of people**: a blog post title, a paper title, a person's name. Plus pull-quote copy.
+- **`--f-sans` (DM Sans)** — **section headings**, card and UI labels, running prose, metadata, controls, and uppercase micro-labels.
+
+The one that trips people up: **a section heading is not serif.** "Past Events", "Funded Grants", "Latest Updates" are all DM Sans 700 at `--fs-h2`. Serif marks a thing that has its own name — `blog`'s `.post-item h2`, `research-compendium`'s `.entry__title`, `team-leadership`'s `.person-card__name`, `our-team-faculty`'s `#fb-name` and `#pd-title` — while sans marks the furniture around it, *including card titles that label a category rather than name a work* (`events`' `.event-card__title`, `data`'s `.data-project__title`, `home`'s `.news-card__title`).
+
+So two `--fs-h3` card titles can legitimately differ: a post title is serif because it names a work, an event card title is sans because it labels an event. That is the rule, not an inconsistency.
+
+Weight is **not** yet standardised across serif titles — 500, 600 and 700 are all in use. Treat 600 as the default for a new one and raise it if we settle the rest.
+
+There is no monospace face.
 
 **Sizes come from tokens, never raw px.**
 
@@ -75,6 +86,7 @@ This page's CSS lives in an inline `<style>` block rather than a `styles.css`, s
 ## Components
 
 - **Hero** — the shared page-hero treatment: left-aligned EB Garamond title at `--fs-h1`/600 in `--c-accent`, DM Sans lede at `--fs-lede`/300, `--space-600` bottom padding. Matches `events`, `team-leadership`, `data`, `grants-rfp` and `our-team-job-openings`; it used to be centred with a serif lede, which made this the one page whose top read as a different site.
+- **Section heading** — "Latest Updates" (`.feed__label`) is DM Sans `--fs-h2` 700 in `--c-red`, the same rule as `events`' `.past-events__title` and `team-leadership`'s `.team-section__title`. 700 because it sits on white; 600 is reserved for headings on coloured blocks. The post count beside it is an uppercase micro-label at `letter-spacing: 1.44px`, matching `.post-date`.
 - **Filter + sort bar** — pill buttons to filter by category (`All / Announcements / Research / People / Events / Grants`; categories are an editorial addition — the source content has no built-in tagging) and a "Sort by" dropdown (`Most Recent` / `Oldest First`) that reorders posts by their actual date, all handled client-side in the inline `<script>`.
 - **Post cards** — one per row; clicking anywhere on a card (or its "Read more" button) opens the full article.
 - **Featured posts** — the badge pins a post to the top of the list, in both sort modes, and is the only switch that does so. See "Adding a post" below.

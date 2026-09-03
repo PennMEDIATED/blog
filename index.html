@@ -57,6 +57,14 @@
   --c-gradient: linear-gradient(150deg, #5533ee 0%, var(--c-red-dark) 81%);
 
   /* ── Figma typography tokens (from /home) ── */
+  /* Two families, no third — and the split is by what the text IS, not by
+     heading level. --f-serif: page titles, and titles of works or names of
+     people (a post title, a paper title, a person's name), plus pull-quote
+     copy. --f-sans: section headings, card and UI labels, running prose,
+     metadata, controls and uppercase micro-labels.
+     The one that trips people up: a SECTION HEADING IS NOT SERIF. Serif
+     marks a thing that has its own name; sans marks the furniture around
+     it. See README -> Typography. */
   --f-serif: 'EB Garamond', Georgia, 'Times New Roman', serif;
   --f-sans:  'DM Sans', system-ui, -apple-system, sans-serif;
   /* -- Type scale (sitewide -- see README) --
@@ -184,19 +192,30 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
   border-bottom: 1px solid rgba(13,13,12,0.1);
 }
 
+/* Section heading. Same rule as every sibling's section title — DM Sans
+   (a section heading is never serif), --fs-h2, weight 700 because this
+   sits on a white background (600 is reserved for headings on coloured
+   blocks). --c-red matches events' .past-events__title and
+   team-leadership's .team-section__title, the two other section titles
+   that head a card list on white. It was --fs-h3/600/--c-dark: a level
+   smaller and a weight lighter than any other section heading on the
+   site. */
 .feed__label {
   font-family: var(--f-sans);
-  font-size: var(--fs-h3);
-  font-weight: 600;
+  font-size: var(--fs-h2);
+  font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--c-dark);
+  line-height: var(--lh-heading);
+  color: var(--c-red);
 }
 
+/* Uppercase micro-label: 1.44px tracking, the same value .post-date and
+   events' .event-card__date use. It was 0.5px. */
 .feed__count {
   font-family: var(--f-sans);
   font-size: var(--fs-micro);
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 1.44px;
   color: var(--c-gray);
   text-transform: uppercase;
 }
