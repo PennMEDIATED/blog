@@ -77,8 +77,103 @@ This page's CSS lives in an inline `<style>` block rather than a `styles.css`, s
 - **Hero** — the shared page-hero treatment: left-aligned EB Garamond title at `--fs-h1`/600 in `--c-accent`, DM Sans lede at `--fs-lede`/300, `--space-600` bottom padding. Matches `events`, `team-leadership`, `data`, `grants-rfp` and `our-team-job-openings`; it used to be centred with a serif lede, which made this the one page whose top read as a different site.
 - **Filter + sort bar** — pill buttons to filter by category (`All / Announcements / Research / People / Events / Grants`; categories are an editorial addition — the source content has no built-in tagging) and a "Sort by" dropdown (`Most Recent` / `Oldest First`) that reorders posts by their actual date, all handled client-side in the inline `<script>`.
 - **Post cards** — one per row; clicking anywhere on a card (or its "Read more" button) opens the full article.
-- **Featured posts** — a post carrying `<span class="featured-badge">Featured</span>` in its `.post-meta` is pinned to the top of the list, in both sort modes. **The badge is the only switch.** `sortItems()` reads it straight out of the DOM (`item.querySelector('.featured-badge')`), so there is no second flag to keep in sync: add the badge and the post pins, remove it and the post falls back into date order. Featured and pinned cannot disagree, which is how the Gutmann post previously ended up badged but sitting mid-list. Pin more than one and they lead as a group, ordered among themselves by the chosen sort. **No post is currently featured.**
+- **Featured posts** — the badge pins a post to the top of the list, in both sort modes, and is the only switch that does so. See "Adding a post" below.
 - **Post modal** — the expanded article view. Reuses rich content blocks straight from the original blog content: pull-quotes, bio sections (photo + credentials), stat rows, a grant list, an embedded video/chart iframe, and a collapsible "Request for Proposals" accordion.
+## Adding a post
+
+Everything lives in `index.html`. There is no CMS, no data file and no build step — a post is one block of markup pasted into `#post-list`.
+
+### 1. Pick a slug
+
+Lowercase, hyphenated, unique on the page: `knight-fellows`, `amy-gutmann`. **It appears in three places and all three must match**, or the "Read more" button opens nothing:
+
+| Where | Form |
+| --- | --- |
+| The `<article>` | `id="post-<slug>"` |
+| The hidden full-content block | `id="content-<slug>"` |
+| The button | `onclick="openModal('<slug>')"` |
+
+The slug is also the page's deep link — `…/blog/#<slug>` opens that post's modal on load — so treat it as a permanent URL and don't rename it after the post ships.
+
+### 2. Paste the block
+
+Newest post goes at the **top** of `#post-list`. Copy this and fill it in:
+
+```html
+<article class="post-item" id="post-SLUG" data-date="YYYY-MM" data-category="CATEGORY">
+  <div class="post-card">
+    <div class="post-meta">
+      <span class="post-date">Month YYYY</span>
+    </div>
+    <h2>Post title</h2>
+    <p class="post-excerpt">Two or three sentences. This is all that shows in the list, so make it stand on its own.</p>
+    <div class="post-item-footer">
+      <button class="expand-btn" onclick="openModal('SLUG')">
+        <span class="expand-label">Read more</span> <span class="expand-icon">&#8594;</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="post-full-content" id="content-SLUG">
+    <div class="post-full-content-inner">
+      <p>The full post. Plain paragraphs; add the rich blocks below as needed.</p>
+    </div>
+  </div>
+</article>
+```
+
+`.post-full-content` is `display: none` — the modal lifts `.post-full-content-inner` out of it when the card is clicked. Nothing in there renders in the list, so length doesn't affect the feed.
+
+### 3. The three attributes that do work
+
+- **`data-date="YYYY-MM"`** drives sorting. It is *not* the string readers see — `.post-date` is. **Keep them in agreement**; nothing checks, and a mismatch shows one date while sorting by another.
+- **`data-category`** must be one of `Announcements`, `Research`, `People`, `Events`, `Grants` — matched **case-sensitively** against the `data-filter` on the pills. A typo doesn't error; the post just silently vanishes whenever that filter is active. To add a category, add a `.filter-pill` to `#feed-filters` as well.
+- **`id`** — see the slug rule above.
+
+The post count in the feed header is computed from what's visible, so it updates itself.
+
+### 4. Featuring / pinning a post
+
+**Featured and pinned-to-the-top are the same thing.** Add this as the first child of `.post-meta`:
+
+```html
+<span class="featured-badge">Featured</span>
+```
+
+That badge is the *only* switch. `sortItems()` reads it straight out of the DOM (`item.querySelector('.featured-badge')`) and puts badged posts first, in **both** sort modes — pinning that only held under "Most Recent" would sink again under "Oldest First". There is deliberately no `data-featured` attribute: a second flag is a second thing to forget, and that is exactly how the Gutmann post ended up wearing the badge while sitting third in the list.
+
+So the rule runs both ways, and cannot be half-applied:
+
+- Add the badge → the post pins. **Remove the badge → it drops back into date order.**
+- If you want a post at the top, badge it. Don't reorder the markup by hand — sorting runs on load and will undo it.
+
+Pin more than one and they lead as a group, ordered among themselves by the chosen sort. Category filtering is unaffected: a pinned post leads within the filtered set. **No post is featured right now** — the mechanism is dormant until someone adds a badge.
+
+### 5. Rich blocks for the modal
+
+These are styled and ready to use inside `.post-full-content-inner`:
+
+| Block | Markup |
+| --- | --- |
+| Pull quote | `<div class="pull-quote"><p>…</p></div>` |
+| Feature image | `<img src="assets/…" width="…" height="…" alt="…" class="post-feature-img" />` |
+| Feature video | `<video src="assets/….mp4" poster="assets/…-poster.webp" width="…" height="…" autoplay muted loop playsinline preload="metadata" aria-label="…" class="post-feature-img"></video>` |
+| Person bio | `.bio-section` > `.bio-label` + `.bio-inner` > `img.bio-photo` + `.bio-name` / `.bio-title` |
+| Stat row | `.stat-row` > `.stat-box` > `.num` + `.label` |
+| Grant list | `<ul class="grant-list">` with `.pis` for the investigator line |
+| Collapsible section | `.rfp-toggle` button + the panel it controls |
+
+In-text links need no class — `.modal-body a` styles them as category-1 in-text links automatically.
+
+### 6. Before you commit
+
+- [ ] Slug identical in all three places, and the post opens when you click the card
+- [ ] `data-date` and the visible `.post-date` agree
+- [ ] `data-category` exactly matches a filter pill; click that pill and confirm the post appears
+- [ ] Any image or video carries real `width`/`height` and follows "Images and video" below
+- [ ] If you badged it, it sits top of the list under **both** sort options
+- [ ] If you un-badged something, confirm it fell back into date order
+
 ## Embedding this page
 
 WordPress renders the real site; this repo is the source. The launch plan is direct-to-disk deployment, which needs no iframe — but iframe embedding still works and is the documented fallback, so keep this snippet accurate if you rename the repo or change its Pages URL.
