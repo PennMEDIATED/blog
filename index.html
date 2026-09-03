@@ -222,8 +222,8 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
 }
 .filter-pill:hover { border-color: var(--c-dark); color: var(--c-dark); }
 .filter-pill.is-active {
-  background: var(--c-red);
-  border-color: var(--c-red);
+  background: var(--c-red-dark);
+  border-color: var(--c-red-dark);
   color: var(--c-white);
 }
 
@@ -252,7 +252,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
   cursor: pointer;
   /* Sitewide disclosure chevron (README -> Hyperlinks -> Dropdowns and
      disclosures) — never the browser default marker. */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14' fill='none'%3E%3Cpath d='M2 5l5 5 5-5' stroke='%23f03d1f' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14' fill='none'%3E%3Cpath d='M2 5l5 5 5-5' stroke='%23df3611' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 13px;
@@ -380,7 +380,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
   transition: color 0.15s, border-color 0.15s;
   flex-shrink: 0;
 }
-.expand-btn:hover { color: var(--c-red); border-color: var(--c-red); }
+.expand-btn:hover { color: var(--c-red-dark); border-color: var(--c-red-dark); }
 .expand-icon { display: inline-block; transition: transform 0.2s ease; }
 
 /* Full post bodies are data sources for the modal only — never rendered inline */
@@ -689,7 +689,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
 }
 .rfp-toggle:hover { background: #efece5; }
 .rfp-toggle[aria-expanded="true"] { background: var(--c-dark); color: var(--c-white); }
-.rfp-toggle-icon { color: var(--c-red); flex-shrink: 0; display: flex; }
+.rfp-toggle-icon { color: var(--c-red-dark); flex-shrink: 0; display: flex; }
 .rfp-toggle[aria-expanded="true"] .rfp-toggle-icon { color: #ff8a75; }
 .rfp-toggle-label { flex: 1; text-align: left; }
 .rfp-toggle-chevron { flex-shrink: 0; display: flex; transition: transform 0.2s; }
