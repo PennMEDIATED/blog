@@ -344,7 +344,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
   grid-column: 2;
   grid-row: 1;
   font-family: var(--f-serif);
-  font-weight: 500;
+  font-weight: 600;
   font-size: var(--fs-h3);
   line-height: var(--lh-title);
   letter-spacing: -0.01em;
@@ -362,6 +362,11 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
   line-height: var(--lh-body);
   color: var(--c-dark);
   margin-bottom: var(--space-300);
+  /* Measure cap, not a layout width. The feed is a single full-width
+     column, so 720px is what lands a ~70-character line here; events'
+     .event-card__desc caps at 560px because its grid is two columns.
+     The two numbers differ ON PURPOSE. See README -> Typography ->
+     Measure. */
   max-width: 720px;
 }
 
@@ -476,7 +481,7 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
 
 .modal-header h2 {
   font-family: var(--f-serif);
-  font-weight: 500;
+  font-weight: 600;
   font-size: var(--fs-h2);
   line-height: var(--lh-heading);
   color: var(--c-white);
