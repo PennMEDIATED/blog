@@ -1,6 +1,6 @@
 # A MEDIATED Feed — Blog Homepage
 
-A self-contained rebuild of the Penn MEDIATED blog homepage (`infodem.upenn.edu/blog/`), restyled using the design system published at [github.com/PennMEDIATED/home](https://github.com/PennMEDIATED/home). Everything — markup, CSS, and JS — lives in the single `index.html` file; there are no external dependencies besides Google Fonts.
+A self-contained rebuild of the Penn MEDIATED blog homepage (`mediated.upenn.edu/blog/`), restyled using the design system published at [github.com/PennMEDIATED/home](https://github.com/PennMEDIATED/home). Everything — markup, CSS, and JS — lives in the single `index.html` file; there are no external dependencies besides Google Fonts.
 
 ## Design tokens
 
@@ -390,7 +390,7 @@ Never leave the marker to the browser — style `<select>` with `appearance: non
 
 ## Source content
 
-- Live page: `https://infodem.upenn.edu/blog/`
+- Live page: `https://mediated.upenn.edu/blog/`
 - Underlying post content: `https://penn-mediated.github.io/MEDIATED-blog/` (the current live GitHub Pages site, in the older `penn-mediated` org)
 - Style guide: `https://github.com/PennMEDIATED/home`
 
