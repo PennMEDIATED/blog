@@ -790,7 +790,10 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
 
 @media (max-width: 600px) {
   .modal-overlay { padding: 0; }
-  .modal-box { margin-block: 0; min-height: 100vh; border-radius: 0; }
+  /* No vh here: this page is iframed at its full content height, so 100vh
+     resolves to the whole document and the modal can never shrink the
+     frame back down. Let the box size to its own content instead. */
+  .modal-box { margin-block: 0; border-radius: 0; }
   .stat-row { grid-template-columns: 1fr; }
 }
 
@@ -1745,6 +1748,13 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
       window.addEventListener('resize', sendHeight);
       if (document.fonts && document.fonts.ready) { document.fonts.ready.then(sendHeight); }
       if (window.ResizeObserver) { new ResizeObserver(sendHeight).observe(document.body); }
+      /* Late-settling layout: webfonts swapping in, images decoding, a lazy
+         iframe resolving. ResizeObserver catches most of it, but a change that
+         lands between the last observed tick and paint can leave the frame a
+         few px short of the content. Two cheap re-measures after load close
+         that window; sendHeight's hysteresis makes a no-op re-post free. */
+      setTimeout(sendHeight, 300);
+      setTimeout(sendHeight, 1200);
     })();
   </script>
 </body>
