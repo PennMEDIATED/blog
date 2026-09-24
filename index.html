@@ -179,7 +179,9 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
    ============================================================================= */
 .feed {
   background: var(--c-white);
-  padding-block: 0 var(--space-1000);
+  /* No bottom padding: the global footer opens with its own 132px white
+     signal band, which is the gap before the footer on every page. */
+  padding-block: 0;
 }
 
 .feed__inner { max-width: var(--max-w); }
