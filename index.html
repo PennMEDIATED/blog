@@ -151,7 +151,8 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
   max-width: var(--max-w);
   margin-inline: auto;
   padding-inline: var(--pad-x);
-  padding-block: var(--space-800) var(--space-600);
+  /* 80px from the site menu to the title, as on every page. */
+  padding-block: var(--space-1000) var(--space-600);
 }
 
 .feed-hero__title {
@@ -1604,6 +1605,7 @@ body { display: flow-root; }
       var hash = window.location.hash.replace('#', '');
       if (hash && document.getElementById('content-' + hash)) {
         openModal(hash);
+        holdModalInView();
       }
 
       initFeedControls();
@@ -1687,7 +1689,50 @@ body { display: flow-root; }
       var modal = document.getElementById('post-modal');
       modal.hidden = false;
       modal.scrollTop = 0;
+      placeModal(modal, article);
       history.replaceState(null, '', '#' + id);
+    }
+
+    /* Embedded, this page is one tall iframe with no scroll of its own, so a
+       position: fixed overlay covers the whole document and the post box used
+       to open at the very top of it, far above where the visitor clicked.
+       Instead, start the box level with the post that was opened (kept inside
+       the document), and ask the WordPress page to bring that spot into view
+       with the same { frameScrollTo } message the compendium uses (the embed
+       snippet in the README handles it; an older snippet just ignores it, and
+       the box is still next to the post the visitor clicked). Opened directly,
+       the overlay is the viewport and none of this applies. */
+    function placeModal(modal, article) {
+      var box = modal.querySelector('.modal-box');
+      if (window.self === window.top) { box.style.marginTop = ''; return; }
+      var docH = document.body.scrollHeight;
+      var y = article.getBoundingClientRect().top + window.pageYOffset;
+      var room = docH - box.offsetHeight - 40;
+      y = Math.max(0, Math.min(y, room));
+      box.style.marginTop = y + 'px';
+      var boxTop = Math.round(box.getBoundingClientRect().top + window.pageYOffset);
+      window.parent.postMessage({ frameScrollTo: boxTop }, '*');
+    }
+
+    /* A post opened from a link (#hash) in a new tab: WordPress (Divi) scrolls
+       the page back to the top as it finishes loading, which can land after
+       our scroll request. Repeat the request for the first few seconds after
+       load, and stop as soon as the visitor scrolls, taps or types. */
+    function holdModalInView() {
+      if (window.self === window.top) return;
+      var stopped = false;
+      function stop() { stopped = true; }
+      ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) {
+        window.addEventListener(ev, stop, { once: true, passive: true });
+      });
+      function again() {
+        var modal = document.getElementById('post-modal');
+        if (stopped || modal.hidden) return;
+        var box = modal.querySelector('.modal-box');
+        window.parent.postMessage({ frameScrollTo: Math.round(box.getBoundingClientRect().top + window.pageYOffset) }, '*');
+      }
+      function later() { [250, 700, 1500, 3000].forEach(function (ms) { setTimeout(again, ms); }); }
+      if (document.readyState === 'complete') later(); else window.addEventListener('load', later, { once: true });
     }
 
     function closeModal() {
