@@ -433,6 +433,11 @@ button { font: inherit; cursor: pointer; background: none; border: none; }
   overflow-y: auto;
 }
 .modal-overlay[hidden] { display: none; }
+/* Embedded, the iframe is sized to the whole document and the WordPress page
+   does the scrolling. The overlay must not scroll on its own, or a wheel over
+   it gets caught there instead of moving the page. placeModal() keeps the
+   post inside the overlay's height, so nothing is clipped. */
+html.is-embedded .modal-overlay { overflow: hidden; }
 
 .modal-box {
   width: 100%;
@@ -1590,6 +1595,23 @@ body { display: flow-root; }
   </div>
 
   <script>
+    /* Embedded = inside the WordPress page's iframe. Set before anything
+       renders so the overlay CSS below can depend on it. */
+    var EMBEDDED = window.self !== window.top;
+    if (EMBEDDED) document.documentElement.classList.add('is-embedded');
+
+    /* A shared link (mediated.upenn.edu/blog/#post-id) reaches this page in
+       one of two ways. If the WordPress snippet sets the iframe's src before
+       the first load commits, the hash is there at DOMContentLoaded. If the
+       first load has already committed, the browser treats the src change as
+       a same-page jump to a #fragment: no reload, DOMContentLoaded never sees
+       the hash, and the post silently failed to open. Which one happens is a
+       race — it is why "some links" worked. hashchange catches the second. */
+    window.addEventListener('hashchange', function() {
+      var h = window.location.hash.replace('#', '');
+      if (h && h !== currentModalId && document.getElementById('content-' + h)) openModal(h, true);
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('.post-item').forEach(function(article) {
         var btn = article.querySelector('.expand-btn');
@@ -1606,8 +1628,7 @@ body { display: flow-root; }
 
       var hash = window.location.hash.replace('#', '');
       if (hash && document.getElementById('content-' + hash)) {
-        openModal(hash);
-        holdModalInView();
+        openModal(hash, true);
       }
 
       initFeedControls();
@@ -1681,7 +1702,7 @@ body { display: flow-root; }
 
     var currentModalId = null;
 
-    function openModal(id) {
+    function openModal(id, fromLink) {
       currentModalId = id;
       var src = document.getElementById('content-' + id);
       var article = src.closest('.post-item');
@@ -1691,7 +1712,7 @@ body { display: flow-root; }
       var modal = document.getElementById('post-modal');
       modal.hidden = false;
       modal.scrollTop = 0;
-      placeModal(modal, article);
+      placeModal(modal, article, fromLink);
       history.replaceState(null, '', '#' + id);
     }
 
@@ -1704,41 +1725,42 @@ body { display: flow-root; }
        snippet in the README handles it; an older snippet just ignores it, and
        the box is still next to the post the visitor clicked). Opened directly,
        the overlay is the viewport and none of this applies. */
-    function placeModal(modal, article) {
+    function placeModal(modal, article, fromLink) {
       var box = modal.querySelector('.modal-box');
-      if (window.self === window.top) { box.style.marginTop = ''; return; }
+      document.body.style.minHeight = '';
+      if (!EMBEDDED) { box.style.marginTop = ''; return; }
+
+      /* Everything the overlay stacks vertically besides the box's own
+         offset: overlay padding top + bottom, and the box's bottom margin.
+         The old clamp subtracted a flat 40px against these ~120px, so the
+         overlay ran ~80px taller than the iframe and became its own little
+         scroll area — a wheel over the post scrolled that instead of the
+         page, which is the "stuck" feeling. */
+      var ocs = getComputedStyle(modal), bcs = getComputedStyle(box);
+      var chrome = parseFloat(ocs.paddingTop) + parseFloat(ocs.paddingBottom) + parseFloat(bcs.marginBottom);
+      var need = box.offsetHeight + chrome;
       var docH = document.body.scrollHeight;
-      var y = article.getBoundingClientRect().top + window.pageYOffset;
-      var room = docH - box.offsetHeight - 40;
-      y = Math.max(0, Math.min(y, room));
+      // A post taller than the whole feed (one filter, long post): make the
+      // page tall enough to hold it; the frameHeight reporter grows the iframe.
+      if (need > docH) { document.body.style.minHeight = need + 'px'; docH = need; }
+
+      /* Opened from a shared link: put the post at the top of the blog. The
+         visitor lands at the top of the page (WordPress resets the scroll as
+         it loads), so that is where the post has to be — previously it sat
+         next to its card, up to ~3,000px down, and the page was dragged there
+         repeatedly for several seconds, fighting the visitor's own scrolling.
+         Opened by a click: keep it level with the card that was clicked. */
+      var y = fromLink ? 0 : article.getBoundingClientRect().top + window.pageYOffset;
+      y = Math.max(0, Math.min(y, docH - need));
       box.style.marginTop = y + 'px';
+
       var boxTop = Math.round(box.getBoundingClientRect().top + window.pageYOffset);
       window.parent.postMessage({ frameScrollTo: boxTop }, '*');
     }
 
-    /* A post opened from a link (#hash) in a new tab: WordPress (Divi) scrolls
-       the page back to the top as it finishes loading, which can land after
-       our scroll request. Repeat the request for the first few seconds after
-       load, and stop as soon as the visitor scrolls, taps or types. */
-    function holdModalInView() {
-      if (window.self === window.top) return;
-      var stopped = false;
-      function stop() { stopped = true; }
-      ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(function (ev) {
-        window.addEventListener(ev, stop, { once: true, passive: true });
-      });
-      function again() {
-        var modal = document.getElementById('post-modal');
-        if (stopped || modal.hidden) return;
-        var box = modal.querySelector('.modal-box');
-        window.parent.postMessage({ frameScrollTo: Math.round(box.getBoundingClientRect().top + window.pageYOffset) }, '*');
-      }
-      function later() { [250, 700, 1500, 3000].forEach(function (ms) { setTimeout(again, ms); }); }
-      if (document.readyState === 'complete') later(); else window.addEventListener('load', later, { once: true });
-    }
-
     function closeModal() {
       document.getElementById('post-modal').hidden = true;
+      document.body.style.minHeight = '';
       history.replaceState(null, '', window.location.pathname);
     }
 
