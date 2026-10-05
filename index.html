@@ -1742,22 +1742,46 @@ body { display: flow-root; }
       history.replaceState(null, '', window.location.pathname);
     }
 
+    /* The link people share is the public WordPress URL, never this file's
+       own address. Embedded, window.location is pennmediated.github.io — the
+       wrong host to hand out. The WordPress embed snippet forwards the #hash
+       into this iframe, so mediated.upenn.edu/blog/#post-id opens the post. */
+    var PUBLIC_BLOG_URL = 'https://mediated.upenn.edu/blog/';
+
     function copyPostLink() {
       var label = document.getElementById('modal-copy-label');
-      var url = window.location.href.split('#')[0] + (currentModalId ? '#' + currentModalId : '');
+      var btn = document.getElementById('modal-copy-btn');
+      var url = PUBLIC_BLOG_URL + (currentModalId ? '#' + currentModalId : '');
 
       function flash(msg) {
         label.textContent = msg;
         setTimeout(function() { label.textContent = 'Copy link'; }, 2000);
       }
 
+      /* Inside a cross-origin iframe the async Clipboard API is refused unless
+         the embed grants allow="clipboard-write" — the live embed does not, so
+         writeText always rejected and the button said "Copy failed". Fall back
+         to a hidden textarea + execCommand('copy'), which is not gated by that
+         policy and still runs inside the click that triggered it. */
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = url;
+        ta.setAttribute('readonly', '');
+        ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none';
+        document.body.appendChild(ta);
+        ta.select();
+        ta.setSelectionRange(0, url.length);
+        var ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+        document.body.removeChild(ta);
+        if (btn) btn.focus();
+        flash(ok ? 'Copied!' : 'Copy failed');
+      }
+
       if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
-        navigator.clipboard.writeText(url).then(
-          function() { flash('Copied!'); },
-          function() { flash('Copy failed'); }
-        );
+        navigator.clipboard.writeText(url).then(function() { flash('Copied!'); }, fallback);
       } else {
-        flash('Copy failed');
+        fallback();
       }
     }
 
