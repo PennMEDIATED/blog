@@ -541,6 +541,7 @@ html.is-embedded .modal-overlay { overflow: hidden; }
 .modal-body ul { list-style: disc; }
 .modal-body ol { list-style: decimal; }
 .modal-body li { margin-bottom: var(--space-150); }
+.modal-body ul.list-tight li { margin-bottom: 0; }
 .modal-body li strong { color: var(--c-dark); font-weight: 600; }
 
 .modal-body blockquote {
@@ -864,10 +865,92 @@ body { display: flow-root; }
       </div>
 
       <div class="post-list" id="post-list">
+        <!-- ═══════════════════════════════════════════════════
+             POST: Data Sharing Program + 2026–27 Grants RFP — November 2026
+        ════════════════════════════════════════════════════ -->
+        <article class="post-item" id="post-data-sharing-grants-2026" data-date="2026-11" data-category="Announcements">
+          <div class="post-card">
+            <div class="post-meta">
+              <span class="post-date">November 2026</span>
+            </div>
+            <h2>Announcing the Penn MEDIATED Data Sharing Program and Our 2026–27 Research Grants RFP</h2>
+            <p class="post-excerpt">Penn MEDIATED is launching a new data sharing program that opens four major media datasets to Penn researchers, alongside the second round of our Research Grant Program. This year's RFP adds Deployment Grants of up to $25,000 for public-facing data tools, plus a special fact-checking opportunity with FactCheck.org. Applications are open through January 10, 2027.</p>
+            <div class="post-item-footer">
+              <button class="expand-btn" onclick="openModal('data-sharing-grants-2026')">
+                <span class="expand-label">Read more</span> <span class="expand-icon">&#8594;</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="post-full-content" id="content-data-sharing-grants-2026">
+            <div class="post-full-content-inner">
+
+              <p>To advance cutting-edge computational research of the information ecosystem, Penn MEDIATED is announcing new support for a <a href="https://mediated.upenn.edu/data/" target="_blank" rel="noopener">data sharing program</a> that opens several of our most valuable datasets to the Penn community, and the second round of the <a href="https://mediated.upenn.edu/grants-rfp/" target="_blank" rel="noopener">Penn MEDIATED Research Grant Program</a>.</p>
+
+              <p>The two programs are designed to work together. We encourage grant applicants to consider jointly applying to the data sharing program, and we hope that grantees will consider sharing the datasets they collect with the broader Penn community.</p>
+
+              <h2>Data Sharing @ Penn</h2>
+
+              <p>The Penn MEDIATED data sharing program is intended to expand access to, and cross-Penn collaboration around, datasets on the information ecosystem. We are launching with four datasets, each available under its own conditions and restrictions:</p>
+
+              <ul>
+                <li><strong>Media Bias Detector [Full Text]:</strong> The top 20 news articles from 21 mainstream media publishers, collected daily since December 2023.</li>
+                <li><strong>Media Bias Detector [LLM Annotations]:</strong> LLM annotations for those articles, including topic, subtopic, news type, and political lean, as well as sentence-level annotations.</li>
+                <li><strong>TVEyes Data:</strong> TV transcripts and structured metadata describing programming across a large number of broadcast and cable stations from 2012 to 2026.</li>
+                <li><strong>Nielsen Data:</strong> Detailed measures of Americans' exposure to television and internet media, including when, where, and for how long content is consumed across platforms.</li>
+              </ul>
+
+              <p>Much of this data comes through the <a href="https://css.seas.upenn.edu/project/penn-map/" target="_blank" rel="noopener">Penn Media Accountability Project (PennMAP)</a>, an interdisciplinary, nonpartisan project of Penn's <a href="https://css.seas.upenn.edu/" target="_blank" rel="noopener">Computational Social Science Lab</a> that the Center supports.</p>
+
+              <p>Interested Penn researchers can apply through the <a href="https://forms.gle/pRCbqx6QRFbw3Jnh9" target="_blank" rel="noopener">Data Sharing Application Form</a>.</p>
+
+              <h2>2026–27 Research Grants</h2>
+
+              <p>In its <a href="https://mediated.upenn.edu/grants-overview/" target="_blank" rel="noopener">inaugural year</a>, the Penn MEDIATED Research Grant Program funded 12 projects totaling $160,000, and half of them were jointly led by researchers at different Penn schools. Those projects are already building datasets, auditing AI systems, and testing interventions for dialogue across disagreement.</p>
+
+              <p>For the second round, we are putting a greater emphasis on public impact. The 2026–27 RFP seeks proposals for data-driven and computational research on the information ecosystem and its effects on democracy, and we especially want to invest in projects that inform the public with essential information resulting from Penn research.</p>
+
+              <div class="stat-row">
+                <div class="stat-box">
+                  <div class="num">$5K–$10K</div>
+                  <div class="label">Research Grants</div>
+                </div>
+                <div class="stat-box">
+                  <div class="num">$15K–$25K</div>
+                  <div class="label">Deployment Grants</div>
+                </div>
+                <div class="stat-box">
+                  <div class="num">Jan 10</div>
+                  <div class="label">Applications Close</div>
+                </div>
+              </div>
+
+              <p><strong>Research Grants ($5,000–$10,000)</strong> support projects that use data and/or computational methods to advance scientific understanding of the information ecosystem and its interactions with democracy. New empirical methods, new data sources, and open-source software are encouraged but not required.</p>
+
+              <p><strong>Deployment Grants ($15,000–$25,000)</strong> are new this year. They support building and launching public-facing data systems and tools that inform the public, journalists, civil society, policymakers, and industry about the state of the U.S. information ecosystem. Examples include continuous data pipelines that produce datasets others can use, regularly updated dashboards, analytical tools for key datasets, and recurring indices or reports. Projects may also support the applicant's own research, but most of the funding should go toward developing and deploying the data product.</p>
+
+              <h2>A Special Opportunity in Fact-Checking</h2>
+
+              <p>Penn MEDIATED is also partnering with <a href="http://factcheck.org/" target="_blank" rel="noopener">FactCheck.org</a> and the Annenberg Public Policy Center to fund projects for up to $25,000 for use-inspired research and tools that help with fact-checking. Proposals should address one or more of three challenges identified by FactCheck.org:</p>
+
+              <ul class="list-tight">
+                <li>Detecting claims within a political speech, interview, debate, or other transcript.</li>
+                <li>Identifying prior fact-checks and matching them to political claims.</li>
+                <li>Improving search and summarization of entries in fact-checking databases.</li>
+              </ul>
+
+              <p>Grantees will work alongside FactCheck.org, which will test tools and give feedback on their design, so that the results can be used by fact-checking organizations in real-world settings. All resulting code and tools will be open-sourced.</p>
+
+              <p>Full proposal requirements, evaluation criteria, and submission details are in the <a href="https://mediated.upenn.edu/grants-rfp/" target="_blank" rel="noopener">2026–27 Request for Proposals</a>. Questions can go to Prithvi Iyer (<a href="mailto:piyer@upenn.edu">piyer@upenn.edu</a>), Communications and Research Manager at Penn MEDIATED.</p>
+
+            </div>
+          </div>
+        </article>
+
+
         <article class="post-item" id="post-llms-third-wave-moderation" data-date="2026-09" data-category="Events">
           <div class="post-card">
             <div class="post-meta">
-              <span class="featured-badge">Featured</span>
               <span class="post-date">September 2026</span>
             </div>
             <h2>LLMs are the Third Wave of Automated Content Moderation</h2>
